@@ -1,0 +1,22 @@
+<h2> New Question </h2>
+
+<%= form_for(question) do |q| %>
+	<div class="form-group">
+		<div class="field">
+			
+			<%= q.text_field :title, class: "form-control", placeholder: "Title" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="field">
+			<%= q.label :detail %><br />
+			<%= q.text_area :detail	 %>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="field">
+			<%= q.submit %>
+		</div>
+	</div>
+
+<% end %>
