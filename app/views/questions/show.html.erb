@@ -2,33 +2,20 @@
 <h1><%= @question.title %></h1>
 
 <p><%= @question.detail %></p>
-<span lass="badge"> <%= @question.get_upvotes.size %></span>
 
-<% @question.answers.each do |answer| %>
-	<h3><%= answer.response %></h3>
-	<p>Posted by: <%= answer.user.username %>
-	<!-- <input type="button" value="upvote" class="btn btn-secondary" data-target-answer="<%= answer %>" -->
-	<%= link_to "Upvote", like_question_answer_path(@question, answer), method: :put %>
-	<%= link_to "Downvote", dislike_question_answer_path(@question, answer), method: :put %>
-	<span lass="badge"> <%= answer.cached_votes_score %></span>
+<%= render partial: 'comments/comments_index', locals: {commentable: @question} %>
+<%= render partial: 'comments/form', locals: {commentable: @question} %>
 
-<% end %>
 
-<h2> Add Answer </h2>
-	<%= form_for([@question, @question.answers.build]) do |a| %>
-		<div class="form-group">
-			<div class="field">
-				<%= a.label :response %><br />
-				<%= a.text_area :response	 %>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="field">
-				<%= a.submit %>
-			</div>
-		</div>
+Votes:<span lass="badge"> <%= @question.cached_votes_score %></span>
 
-<% end %>
+<!-- Answers section for now, until moved to partial -->
+
+<%= render 'answers/show_answers', locals: {question: @question} %>
+
+<%= render 'answers/form', locals: {question: @question} %>
+
+
 
 
 <%= link_to "back to all questions ", questions_path %><br />

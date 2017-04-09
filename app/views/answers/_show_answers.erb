@@ -1,0 +1,11 @@
+<% @question.answers.each do |answer| %>
+	<h3><%= answer.response %></h3>
+	<p>Posted by: <%= answer.user.username %>
+	<%= link_to "Upvote", like_question_answer_path(@question, answer), method: :put %>
+	<%= link_to "Downvote", dislike_question_answer_path(@question, answer), method: :put %>
+	<span lass="badge"> <%= answer.cached_votes_score %></span>
+
+	<%= render partial: 'comments/comments_index', locals: {commentable: answer} %>
+
+
+<% end %>

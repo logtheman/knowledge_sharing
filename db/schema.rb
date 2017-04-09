@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170408013130) do
+ActiveRecord::Schema.define(version: 20170408234248) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "response"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20170408013130) do
     t.integer  "cached_weighted_score",   default: 0
     t.integer  "cached_weighted_total",   default: 0
     t.float    "cached_weighted_average", default: 0.0
+    t.integer  "comments_count",          default: 0
     t.index ["cached_votes_down"], name: "index_answers_on_cached_votes_down"
     t.index ["cached_votes_score"], name: "index_answers_on_cached_votes_score"
     t.index ["cached_votes_total"], name: "index_answers_on_cached_votes_total"
@@ -34,6 +35,15 @@ ActiveRecord::Schema.define(version: 20170408013130) do
     t.index ["cached_weighted_total"], name: "index_answers_on_cached_weighted_total"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "commentable_type"
+    t.integer  "commentable_id"
+    t.integer  "user_id"
+    t.text     "body"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -50,6 +60,7 @@ ActiveRecord::Schema.define(version: 20170408013130) do
     t.integer  "cached_weighted_score",   default: 0
     t.integer  "cached_weighted_total",   default: 0
     t.float    "cached_weighted_average", default: 0.0
+    t.integer  "comments_count",          default: 0
     t.index ["cached_votes_down"], name: "index_questions_on_cached_votes_down"
     t.index ["cached_votes_score"], name: "index_questions_on_cached_votes_score"
     t.index ["cached_votes_total"], name: "index_questions_on_cached_votes_total"

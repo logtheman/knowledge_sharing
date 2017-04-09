@@ -39,8 +39,7 @@ class QuestionsController < ApplicationController
 		end
 	end
 
-	# PATCH/PUT /posts/1
-	# PATCH/PUT /posts/1.json
+
 	def update
 	  respond_to do |format|
 	    if @question.update(question_params)
@@ -53,7 +52,15 @@ class QuestionsController < ApplicationController
 	  end
 	end
 
+	def upvote
+		@question.liked_by current_user
+		redirect_to questions_path
+	end
 
+	def downvote
+		@question.downvote_from current_user
+		redirect_to questions_path
+	end
 
 
 	private
