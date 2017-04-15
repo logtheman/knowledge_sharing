@@ -1572,3 +1572,155 @@ Processing by QuestionsController#index as HTML
 Completed 200 OK in 102ms (Views: 96.6ms | ActiveRecord: 0.5ms)
 
 
+Started GET "/questions" for ::1 at 2017-04-15 15:43:34 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by QuestionsController#index as HTML
+  Rendering questions/index.html.erb within layouts/application
+  [1m[36mQuestion Load (0.5ms)[0m  [1m[34mSELECT "questions".* FROM "questions"[0m
+  Rendered questions/_question_index.html.erb (25.5ms)
+  Rendered questions/index.html.erb within layouts/application (437.5ms)
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  Rendered shared/_navbar.html.erb (42.5ms)
+Completed 200 OK in 739ms (Views: 699.4ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/questions/1" for ::1 at 2017-04-15 15:43:37 -0700
+Processing by QuestionsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mQuestion Load (0.3ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering questions/show.html.erb within layouts/application
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = ? AND "comments"."commentable_type" = ?[0m  [["commentable_id", 1], ["commentable_type", "Question"]]
+  Rendered comments/_comments_index.html.erb (69.5ms)
+  Rendered comments/_form.html.erb (60.3ms)
+  [1m[36mAnswer Load (0.8ms)[0m  [1m[34mSELECT "answers".* FROM "answers" WHERE "answers"."question_id" = ?[0m  [["question_id", 1]]
+  Rendered answers/_show_answers.erb (27.7ms)
+  Rendered answers/_form.html.erb (29.8ms)
+  Rendered questions/show.html.erb within layouts/application (201.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  Rendered shared/_navbar.html.erb (13.1ms)
+Completed 200 OK in 342ms (Views: 331.9ms | ActiveRecord: 3.2ms)
+
+
+Started POST "/questions/1/comments" for ::1 at 2017-04-15 15:43:45 -0700
+Processing by Questions::CommentsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"uuLlKhq1Anz862OgPpIxrySA2C0oePWJZQ8rxkWWT2MkmBBwll0w0EPkZapkSFnsmZy1P5H6OGnQXHN17Q14Sg==", "comment"=>{"body"=>"hmmmmmmm"}, "commit"=>"Create Comment", "question_id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mQuestion Load (0.1ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "comments" ("commentable_type", "commentable_id", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["commentable_type", "Question"], ["commentable_id", 1], ["body", "hmmmmmmm"], ["created_at", 2017-04-15 22:43:45 UTC], ["updated_at", 2017-04-15 22:43:45 UTC]]
+  [1m[36mQuestion Load (0.1ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "questions" SET "comments_count" = COALESCE("comments_count", 0) + 1 WHERE "questions"."id" = ?[0m  [["id", 1]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/questions/1
+Completed 302 Found in 42ms (ActiveRecord: 2.6ms)
+
+
+Started GET "/questions/1" for ::1 at 2017-04-15 15:43:45 -0700
+Processing by QuestionsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mQuestion Load (0.3ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering questions/show.html.erb within layouts/application
+  [1m[36mComment Load (0.2ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = ? AND "comments"."commentable_type" = ?[0m  [["commentable_id", 1], ["commentable_type", "Question"]]
+  Rendered comments/_comments_index.html.erb (2.2ms)
+  Rendered comments/_form.html.erb (2.4ms)
+  [1m[36mAnswer Load (0.4ms)[0m  [1m[34mSELECT "answers".* FROM "answers" WHERE "answers"."question_id" = ?[0m  [["question_id", 1]]
+  Rendered answers/_show_answers.erb (4.5ms)
+  Rendered answers/_form.html.erb (4.5ms)
+  Rendered questions/show.html.erb within layouts/application (25.9ms)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  Rendered shared/_navbar.html.erb (6.9ms)
+Completed 200 OK in 141ms (Views: 136.5ms | ActiveRecord: 1.0ms)
+
+
+Started POST "/questions/1/answers" for ::1 at 2017-04-15 15:43:56 -0700
+Processing by AnswersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"11tUzE6XB8q+kaViqaefi1iRENvLsRzvc5ajPBiQ88cMTEuUUwnkvGsSTT3i5R3oxevEvfReTGIbdKgOKWRlNQ==", "answer"=>{"response"=>"That's weird\r\n"}, "commit"=>"Create Answer", "question_id"=>"1"}
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mQuestion Load (0.2ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mQuestion Load (0.1ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35mSQL (2.7ms)[0m  [1m[32mINSERT INTO "answers" ("response", "question_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["response", "That's weird\r\n"], ["question_id", 1], ["created_at", 2017-04-15 22:43:56 UTC], ["updated_at", 2017-04-15 22:43:56 UTC]]
+  [1m[35mSQL (0.1ms)[0m  [1m[33mUPDATE "questions" SET "answers_count" = COALESCE("answers_count", 0) + 1 WHERE "questions"."id" = ?[0m  [["id", 1]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "answers" SET "updated_at" = ?, "user_id" = ? WHERE "answers"."id" = ?[0m  [["updated_at", 2017-04-15 22:43:56 UTC], ["user_id", 2], ["id", 1]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/questions/1
+Completed 302 Found in 41ms (ActiveRecord: 7.1ms)
+
+
+Started GET "/questions/1" for ::1 at 2017-04-15 15:43:56 -0700
+Processing by QuestionsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mQuestion Load (0.2ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering questions/show.html.erb within layouts/application
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = ? AND "comments"."commentable_type" = ?[0m  [["commentable_id", 1], ["commentable_type", "Question"]]
+  Rendered comments/_comments_index.html.erb (3.9ms)
+  Rendered comments/_form.html.erb (2.8ms)
+  [1m[36mAnswer Load (0.1ms)[0m  [1m[34mSELECT "answers".* FROM "answers" WHERE "answers"."question_id" = ?[0m  [["question_id", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = ? AND "comments"."commentable_type" = ?[0m  [["commentable_id", 1], ["commentable_type", "Answer"]]
+  Rendered comments/_comments_index.html.erb (6.1ms)
+  Rendered answers/_show_answers.erb (15.2ms)
+  Rendered answers/_form.html.erb (3.2ms)
+  Rendered questions/show.html.erb within layouts/application (34.7ms)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  Rendered shared/_navbar.html.erb (13.4ms)
+Completed 200 OK in 192ms (Views: 187.2ms | ActiveRecord: 0.9ms)
+
+
+Started PUT "/questions/1/answers/1/like" for ::1 at 2017-04-15 15:44:01 -0700
+Processing by AnswersController#upvote as HTML
+  Parameters: {"authenticity_token"=>"59i4/shparMx0OJM+N2jUeBbMIasvtrRvgOxuKwwN5M8z6em1feJxeRTChOznyEyfSHk4JNRilzW4bqKncShYQ==", "question_id"=>"1", "id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mAnswer Load (0.4ms)[0m  [1m[34mSELECT  "answers".* FROM "answers" WHERE "answers"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuestion Load (0.2ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."voter_id" = ? AND "votes"."vote_scope" IS NULL AND "votes"."voter_type" = ?[0m  [["votable_id", 1], ["votable_type", "Answer"], ["voter_id", 2], ["voter_type", "User"]]
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "votes" ("votable_type", "votable_id", "voter_type", "voter_id", "vote_flag", "vote_weight", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["votable_type", "Answer"], ["votable_id", 1], ["voter_type", "User"], ["voter_id", 2], ["vote_flag", true], ["vote_weight", 1], ["created_at", 2017-04-15 22:44:01 UTC], ["updated_at", 2017-04-15 22:44:01 UTC]]
+  [1m[35m (1.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"]]
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"], ["vote_flag", true]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"], ["vote_flag", false]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"], ["vote_flag", true]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"], ["vote_flag", false]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"], ["vote_flag", true]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ? AND "votes"."vote_scope" IS NULL[0m  [["votable_id", 1], ["votable_type", "Answer"], ["vote_flag", false]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "answers" SET "cached_votes_total" = ?, "cached_votes_up" = ?, "cached_votes_score" = ?, "cached_weighted_total" = ?, "cached_weighted_score" = ?, "updated_at" = ? WHERE "answers"."id" = ?[0m  [["cached_votes_total", 1], ["cached_votes_up", 1], ["cached_votes_score", 1], ["cached_weighted_total", 1], ["cached_weighted_score", 1], ["updated_at", 2017-04-15 22:44:01 UTC], ["id", 1]]
+  [1m[35m (4.2ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/questions/1
+Completed 302 Found in 80ms (ActiveRecord: 11.6ms)
+
+
+Started GET "/questions/1" for ::1 at 2017-04-15 15:44:01 -0700
+Processing by QuestionsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mQuestion Load (0.2ms)[0m  [1m[34mSELECT  "questions".* FROM "questions" WHERE "questions"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering questions/show.html.erb within layouts/application
+  [1m[36mComment Load (0.2ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = ? AND "comments"."commentable_type" = ?[0m  [["commentable_id", 1], ["commentable_type", "Question"]]
+  Rendered comments/_comments_index.html.erb (6.6ms)
+  Rendered comments/_form.html.erb (3.3ms)
+  [1m[36mAnswer Load (0.1ms)[0m  [1m[34mSELECT "answers".* FROM "answers" WHERE "answers"."question_id" = ?[0m  [["question_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = ? AND "comments"."commentable_type" = ?[0m  [["commentable_id", 1], ["commentable_type", "Answer"]]
+  Rendered comments/_comments_index.html.erb (1.6ms)
+  Rendered answers/_show_answers.erb (8.7ms)
+  Rendered answers/_form.html.erb (3.8ms)
+  Rendered questions/show.html.erb within layouts/application (36.2ms)
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  Rendered shared/_navbar.html.erb (6.3ms)
+Completed 200 OK in 186ms (Views: 180.4ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/questions" for ::1 at 2017-04-15 15:44:04 -0700
+Processing by QuestionsController#index as HTML
+  Rendering questions/index.html.erb within layouts/application
+  [1m[36mQuestion Load (0.2ms)[0m  [1m[34mSELECT "questions".* FROM "questions"[0m
+  Rendered questions/_question_index.html.erb (4.4ms)
+  Rendered questions/index.html.erb within layouts/application (17.3ms)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  Rendered shared/_navbar.html.erb (9.3ms)
+Completed 200 OK in 165ms (Views: 160.2ms | ActiveRecord: 0.6ms)
+
+
