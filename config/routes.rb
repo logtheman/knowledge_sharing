@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 	
-
+	get 'react_index', to: 'questions#react_index'
+  get 'hello_world', to: 'hello_world#index'
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 	root to: 'questions#index'
 

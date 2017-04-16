@@ -1,10 +1,26 @@
 class QuestionsController < ApplicationController
-	before_action :authenticate_user!, except: [:index, :show]
+	before_action :authenticate_user!, except: [:index, :react_index, :show]
 	before_action :set_question, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 
+	respond_to :html, :json
 
 	def index
 		@questions = Question.all
+	end	
+
+	def react_index
+		@questions = Question.all
+
+		respond_to do |format|
+		  format.html do
+		    render component: 'QuestionsIndex', props: {
+		      questions: prepareArray(@questions),
+		      user:      current_user && prepare(current_user)
+		    }, tag: 'div'
+		  end
+		  format.json { render json: @questions }
+		end
+
 	end	
 
 	def new
@@ -66,6 +82,23 @@ class QuestionsController < ApplicationController
 	private
 		def set_question
 			@question = Question.find(params[:id])
+		end
+
+		def prepareArray(array)
+      ActiveModel::ArraySerializer.new(array, each_serializer: serializer(array))
+			# ActiveModelSerializers::SerializableResource.new(array).to_json
+		end
+
+		def prepare(resource)
+		  serializer(resource).new(resource)
+		end
+
+		def serializer(resource)
+		  if resource.respond_to? :name
+		    "#{resource.name}Serializer".safe_constantize
+		  else
+		    "#{resource.class}Serializer".safe_constantize
+		  end
 		end
 
 		def question_params
