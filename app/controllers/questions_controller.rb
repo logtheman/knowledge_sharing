@@ -10,7 +10,8 @@ class QuestionsController < ApplicationController
 
 	def react_index
 		@questions = Question.all
-
+		@questions = @questions.order(created_at: :desc)
+		# scope :sort_by_newest, -> { order(created_at: :desc) }
 		respond_to do |format|
 		  format.html do
 		    render component: 'QuestionsIndex', props: {
