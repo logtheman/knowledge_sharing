@@ -1,6 +1,6 @@
 import React from 'react';
 import QuestionsListItem from './QuestionsListItem'
-// import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
 // Questions List
 export default class TopQuestionsList extends React.Component {
@@ -21,9 +21,12 @@ export default class TopQuestionsList extends React.Component {
           Questions
         </h3>
         <ul className="list-unstyled">
-
+        <CSSTransitionGroup
+          transitionName="question"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300} >
             {questions}
-          
+           </CSSTransitionGroup>
         </ul>
       </div>
     );

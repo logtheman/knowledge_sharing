@@ -8,6 +8,28 @@ $upvote-color: blue;
 $downvote-color: red;
 $break-small: 990px;
 
+
+.question-button-enter {
+  background-color: #AEE8C1;
+}
+
+.question-button-enter.question-button-enter-active {
+  background-color: white;
+  transition: background-color 1000ms ease-in;
+}
+
+.question-enter {
+  background-color: #AEE8C1;
+}
+
+.question-enter.question-enter-active {
+  background-color: white;
+  transition: background-color 1000ms ease-in;
+}
+
+
+
+
 .question-index {
 	a {	
 		text-decoration: none;

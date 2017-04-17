@@ -1,6 +1,8 @@
 
 import React from 'react';
 import QuestionsList from './QuestionsList';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import * as api from '../../Utils/utils'
 
 export default class QuestionsIndex extends React.Component {
 
@@ -26,74 +28,32 @@ export default class QuestionsIndex extends React.Component {
 	}
 
 	fetchQuestions() {
-	  this.get('/react_index')
+	  api.get('/react_index')
 	    .then(json=>{
 	      this.setState({questions: json.questions});
 	    })
 	}
 
-	_fetch(url, options) {
-	  return fetch(url, options)
-	    .then(response=>{
-	      return response.json();
-	    })
-	    .catch(err=>{
-	      console.log('There was an error processing your request');
-	      console.log(err);
-	    });
-	}
-
-	get(url, options={}) {
-
-	  const defaultOptions = {
-	    headers: {
-	      'Accept':       'application/json',
-	      'Content-Type': 'application/json'
-	    }
-	  };
-
-	  return this._fetch(url, Object.assign({}, defaultOptions, options));
-	}
-
-	post(url, payload, options) {
-
-	  const defaultOptions = {
-	    method: 'POST',
-	    body: JSON.stringify(payload),
-	    headers: {
-	      'X-CSRF-Token':  document.getElementsByName("csrf-token")[0].content,
-	      'Accept':       'application/json',
-	      'Content-Type': 'application/json'
-	    },
-	    credentials: 'same-origin'
-	  };
-
-	  return this._fetch(url, Object.assign({}, defaultOptions, options));
-	}
-
-	handleSubmit() {
+	handleSubmit(e) {
+		e.preventDefault();
 	  const payload = {
 	    question: {
 	      title:       this.refs.title.value,
-	      description: this.refs.description.value
+	      detail: this.refs.detail.value
 	    }
 	  };
 
-	  this.post('/questions', payload)
+	  api.post('/questions', payload)
 	    .then(json=>{
 	      this.fetchQuestions();
 	    });
 
 	  this.refs.title.value = '';
-	  this.refs.description.value = '';
+	  this.refs.detail.value = '';
 	}
 
 	handleAddForm() {
-		if(!this.state.showForm){
-			this.setState({showForm: true});
-		}else{
-			this.setState({showForm: false});
-		}
+		this.setState({showForm: !this.state.showForm});
 	}
 
 	render(){
@@ -105,15 +65,15 @@ export default class QuestionsIndex extends React.Component {
 			questionForm = this.state.currentUser ?
 					  <div>
 					    <h4 style={{marginTop: '20px'}}>Ask a question</h4>
-					      <form>
+					      <form onSubmit={this.handleSubmit}>
 					        <div className="form-group">
 					          <input type="text" className="form-control" placeholder="Title" ref="title"></input>
 					        </div>
 					        <div className="form-group">
-					          <textarea className="form-control" rows="10" placeholder="Description" ref="description"></textarea>
+					          <textarea className="form-control" rows="10" placeholder="Description" ref="detail"></textarea>
 					        </div>
 					        <br/>
-					        <button className="btn btn-default pull-right" onClick={this.handleSubmit}>Submit</button>
+					        <button className="btn btn-default pull-right" type="submit">Submit</button>
 					      </form>
 					  </div> // end of if user is signed in
 					  :
@@ -135,7 +95,12 @@ export default class QuestionsIndex extends React.Component {
 		      	</button>
 		      </div>
 		      <div className="col-md-3">
-		      	{questionForm}
+	      <CSSTransitionGroup
+	        transitionName="question-button"
+	        transitionEnterTimeout={1000}
+	        transitionLeaveTimeout={1000} >
+	      	{questionForm}
+	     	</CSSTransitionGroup>
 		      </div>
 		    </div>
 		  </div>

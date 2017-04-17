@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
 	def destroy
 		@question.destroy
 		respond_to do |format|
-		  format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+		  format.html { redirect_to react_index_path, notice: 'Post was successfully destroyed.' }
 		  format.json { head :no_content }
 		end
 	end
@@ -48,7 +48,7 @@ class QuestionsController < ApplicationController
 		respond_to do |format|
 			if @question.save!
 			  format.html { redirect_to @question, notice: 'Post was successfully created.' }
-			  format.json { render :show, status: :created, location: @question }
+			  format.json { redirect_to react_index_path, notice: 'Post was successfully created.'}
 			else
 			  format.html { render :new }
 			  format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -71,12 +71,12 @@ class QuestionsController < ApplicationController
 
 	def upvote
 		@question.liked_by current_user
-		redirect_to questions_path
+		# redirect_to questions_path
 	end
 
 	def downvote
 		@question.downvote_from current_user
-		redirect_to questions_path
+		# redirect_to questions_path
 	end
 
 
@@ -87,7 +87,6 @@ class QuestionsController < ApplicationController
 
 		def prepareArray(array)
       ActiveModel::ArraySerializer.new(array, each_serializer: serializer(array))
-			# ActiveModelSerializers::SerializableResource.new(array).to_json
 		end
 
 		def prepare(resource)
