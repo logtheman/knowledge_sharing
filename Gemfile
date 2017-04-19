@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem "active_model_serializers", require: true
+gem "active_model_serializers",  '~> 0.8.0'
 
 #add react
 gem "react_on_rails", "~> 6"

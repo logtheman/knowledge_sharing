@@ -15,16 +15,22 @@ export default class QuestionsListItem extends React.Component {
     }
 
     return (
-      <div>
-        <ul className="list-inline text-center" style={{display:'inline-block'}}>
-          <li style={{width: '33%'}}><p className="text-center">{question.cached_votes_score}</p>{Pluralize('vote', question.cached_votes_score)}</li>
-          <li style={{width: '33%'}}><p className="text-center">{question.answers_count}</p>{Pluralize('answer', question.answers_count)}</li>
-          <li style={{width: '33%'}}><p className="text-center">{question.comments_count}</p>{Pluralize('comment', question.comments_count)}</li>
+      <div className="question-row border">
+        <ul className="list-inline text-center question-stat">
+          <li><p className="text-center">{question.cached_votes_score}</p>
+            <span>{Pluralize('vote', question.cached_votes_score)}</span>
+          </li>
+          <li><p className="text-center">{question.answers_count}</p>
+            <span>{Pluralize('answer', question.answers_count)}</span>
+          </li>
+          <li><p className="text-center">{question.comments_count}</p>
+            <span>{Pluralize('comment', question.comments_count)}</span>
+          </li>
         </ul>
-        <div style={{display: 'inline-block', verticalAlign:'top'}}>
+        <div className="question-content">
           <a href={`/questions/${question.id}`}>{question.title}</a>
         </div>
-        <p className="pull-right">asked <TimeAgo date= {question.created_at} /> {askBy}</p>
+        <p className="question-author">asked <TimeAgo date= {question.created_at} /> {askBy}</p>
       </div>
     );
   }

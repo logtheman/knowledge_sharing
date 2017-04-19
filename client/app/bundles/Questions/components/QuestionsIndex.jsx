@@ -50,6 +50,7 @@ export default class QuestionsIndex extends React.Component {
 
 	  this.refs.title.value = '';
 	  this.refs.detail.value = '';
+	  this.handleAddForm(); //remove the form on each use
 	}
 
 	handleAddForm() {
@@ -82,11 +83,17 @@ export default class QuestionsIndex extends React.Component {
 		}
 		return (
 		  <div>
-			  <div className="row">
-
-			  </div>
 		    <div className="row">
-		      <div className="col-md-9">
+		    	<div className="col-md-9">
+		     <CSSTransitionGroup
+		       transitionName="questionButton"
+		       transitionEnterTimeout={1000}
+		       transitionLeaveTimeout={300} >
+		     	{questionForm}
+		    	</CSSTransitionGroup>
+		    	</div>
+		      <div className="col-md-9 question-container">
+
 		        <QuestionsList questions={this.state.questions} />
 		      </div>
 		      <div className="col-md-3" style={{marginTop: '40px'}}>
@@ -95,12 +102,7 @@ export default class QuestionsIndex extends React.Component {
 		      	</button>
 		      </div>
 		      <div className="col-md-3">
-	      <CSSTransitionGroup
-	        transitionName="question-button"
-	        transitionEnterTimeout={1000}
-	        transitionLeaveTimeout={1000} >
-	      	{questionForm}
-	     	</CSSTransitionGroup>
+
 		      </div>
 		    </div>
 		  </div>
