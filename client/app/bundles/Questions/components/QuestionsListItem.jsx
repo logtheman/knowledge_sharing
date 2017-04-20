@@ -28,7 +28,7 @@ export default class QuestionsListItem extends React.Component {
           </li>
         </ul>
         <div className="question-content">
-          <a href={`/questions/${question.id}`}>{question.title}</a>
+          <a href={`/questionpage/${question.id}`}>{question.title}</a>
         </div>
         <p className="question-author">asked <TimeAgo date= {question.created_at} /> {askBy}</p>
       </div>

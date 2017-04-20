@@ -57,6 +57,21 @@ export default class QuestionsIndex extends React.Component {
 		this.setState({showForm: !this.state.showForm});
 	}
 
+
+	onComment(description) {
+	  const payload = {
+	    comment: {
+	      question_id: this.state.question.id,
+	      body: body
+	    }
+	  };
+
+	  post('/answers', payload)
+	    .then(json=>{
+	      this.fetchAnswers();
+	    });
+	}
+
 	render(){
 
 		let questionForm = "";
@@ -84,16 +99,7 @@ export default class QuestionsIndex extends React.Component {
 		return (
 		  <div>
 		    <div className="row">
-		    	<div className="col-md-9">
-		     <CSSTransitionGroup
-		       transitionName="questionButton"
-		       transitionEnterTimeout={1000}
-		       transitionLeaveTimeout={300} >
-		     	{questionForm}
-		    	</CSSTransitionGroup>
-		    	</div>
 		      <div className="col-md-9 question-container">
-
 		        <QuestionsList questions={this.state.questions} />
 		      </div>
 		      <div className="col-md-3" style={{marginTop: '40px'}}>
@@ -102,7 +108,12 @@ export default class QuestionsIndex extends React.Component {
 		      	</button>
 		      </div>
 		      <div className="col-md-3">
-
+		       <CSSTransitionGroup
+		         transitionName="questionButton"
+		         transitionEnterTimeout={1000}
+		         transitionLeaveTimeout={300} >
+		       	{questionForm}
+		      	</CSSTransitionGroup>
 		      </div>
 		    </div>
 		  </div>

@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
 	before_action :authenticate_user!, except: [:index, :react_index, :show]
-	before_action :set_question, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
+	before_action :set_question, only: [:show, :question_page, :edit, :update, :destroy, :upvote, :downvote]
 
 	respond_to :html, :json
 
@@ -28,7 +28,23 @@ class QuestionsController < ApplicationController
 		@question = Question.new
 	end
 
+	def question_page
+		answers = @question.answers;
+		respond_to do |format|
+		  format.html do
+		    render component: 'QuestionPage', props: {
+		      question:  prepare(@question),
+		      answers:   prepareArray(answers),
+		      user:      current_user && prepare(current_user)
+		    }, tag: 'div'
+		  end
+		  format.json { render json: @question }
+		end
+
+	end
+
 	def show
+
 	end
 
 	def edit
