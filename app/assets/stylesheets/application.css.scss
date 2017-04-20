@@ -110,10 +110,32 @@
 /* Comments section starts here ************************************** */
 
 .comments-container{
+	display: flex;
+	flex-direction: column;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	.comment-header{
+		border-bottom: 2px solid #CCC;
+
+	}
+	margin-left: 5%;
 	h2{
-		border-top: 2px solid #CCC;
-		padding-bottom: 10px;
-		padding-top: 10px;
+
 		font-size: 1.2em;
 	}
+	p{
+		font-size: 0.75em;
+	}
+	.comment-row{
+		flex: 1;
+		flex-direction: row;
+		border-bottom: 1px solid #CCC;
+		padding-top: 5px;
+		padding-bottom: 2px;
+		.comment-author{
+			font-size: .75em;
+			color: grey;
+		}
+	}
+
 }

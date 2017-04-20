@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
 		@comment = @commentable.comments.new comment_params
 		@comment.user_id = current_user
 		@comment.save
-		redirect_to @commentable, notice: "Comment was successfully saved"
+		redirect_to @commentable
 	end
 
 	private

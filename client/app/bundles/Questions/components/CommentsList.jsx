@@ -11,16 +11,19 @@ const CommentsList = (props) => {
 			props.comments.map(comment=>{
 				return(
 					<div key={comment.id} className="comment-row">
-						{comment.body}
-
+						<p>{comment.body}</p>
+						<div className="comment-author">
+							Commented by {comment.username}
+						</div>
 					</div>
 				);
 			});
 	 renderComments = (
 				<div className="comments-container">
-					<h2>{props.numComments} {Pluralize('Comment', props.numComments)}</h2>
+					<div className="comment-header">
+						<h2>{props.numComments} {Pluralize('Comment', props.numComments)}</h2>
+					</div>
 					{allComments}
-
 				</div>
 				);
 	}
