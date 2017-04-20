@@ -29,21 +29,30 @@ class QuestionsController < ApplicationController
 	end
 
 	def question_page
+
+	end
+
+	def show
 		answers = @question.answers;
+		comments = @question.comments;
+
 		respond_to do |format|
 		  format.html do
 		    render component: 'QuestionPage', props: {
 		      question:  prepare(@question),
 		      answers:   prepareArray(answers),
+		      comments:   prepareArray(comments),
 		      user:      current_user && prepare(current_user)
 		    }, tag: 'div'
 		  end
-		  format.json { render json: @question }
+		  format.json { 
+		  	render :json => {
+		  		question: @question,
+		  		comments: comments,
+		  		answers: answers
+		  	}
+		  }
 		end
-
-	end
-
-	def show
 
 	end
 

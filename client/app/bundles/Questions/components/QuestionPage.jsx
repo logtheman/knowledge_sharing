@@ -1,8 +1,8 @@
 import React from 'react';
 import * as api from '../../Utils/utils'
 import CommentsList from './CommentsList'
-import AnswersList from './answersList'
-
+import AnswersList from './AnswersList'
+import QuestionDetail from './QuestionDetail'
 
 
 export default class QuestionPage extends React.Component {
@@ -16,15 +16,51 @@ export default class QuestionPage extends React.Component {
 		}
 
 
-		this.handleSubmit = this.handleSubmitComment.bind(this);
-		// this.fetchComments = this.fetchComments.bind(this);
+		this.handleSubmitComment = this.handleSubmitComment.bind(this);
+		this.fetchComments = this.fetchComments.bind(this);
 	}
 
 	handleSubmitComment(e){
 		e.preventDefault();
+		console.log("question id: ", this.state.question.id);
+		console.log("body content: ", this.refs.body.value);
+
+		const payload = {
+		  comment: {
+		    question_id: this.state.question.id,
+		    body: this.refs.body.value
+		  }
+		};
+
+		api.post(`/questions/${this.state.question.id}/comments`, payload)
+		  .then(json=>{
+		    this.fetchComments();
+		 });
+
+		 this.refs.body.value = '';
 
 	}
 
+	fetchComments() {
+	  api.get(`/questions/${this.state.question.id}`)
+	    .then(json=>{
+	      this.setState({comments: json.comments});
+	  });
+	}
+
+	onComment(description) {
+	  const payload = {
+	    answer: {
+	      question_id: this.state.question.id,
+	      body: body
+	    }
+	  };
+
+	  api.post('/comments', payload)
+	    .then(json=>{
+	      this.fetchComments();
+	    });
+	}
 
 	render(){
 
@@ -44,10 +80,10 @@ export default class QuestionPage extends React.Component {
 
 		return (
 			<div>
-				<h2>{this.state.question.title}</h2>
-				<p>{this.state.question.detail}</p>
-				<CommentsList comments={this.state.comments} />
-				<AnswersList answers={this.state.answers} />
+				<QuestionDetail question={this.state.question} />
+				{commentForm}
+				<CommentsList comments={this.state.comments} numComments={this.state.question.comments_count} />
+				<AnswersList answers={this.state.answers} numAnswers={this.state.question.answers_count} />
 			</div>
 		); //end of return
 	} // end of render
