@@ -13,41 +13,41 @@ export default class QuestionPage extends React.Component {
 			comments: this.props.comments,
 			answers: this.props.answers,
 			showCommentForm: false,
-			showAnswerForm: false
+			showAnswerForm: false,
+			currentUser: props.currentUser
 
 		}
 
 		this.handleAddComment = this.handleAddComment.bind(this);
 		this.handleSubmitComment = this.handleSubmitComment.bind(this);
+		this.handleAddAnswer = this.handleAddAnswer.bind(this);		
+		this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
 		this.fetchComments = this.fetchComments.bind(this);
+	}
+
+// --------------- Comment Functions -------------------------------  //
+
+
+	handleAddComment() {
+		this.setState({showCommentForm: !this.state.showCommentForm});
 	}
 
 	handleSubmitComment(e){
 		e.preventDefault();
 		const payload = {
 		  comment: {
-		    question_id: this.state.question.id,
-		    body: this.refs.body.value
+		    body: this.refs.body.value,
+		    user_id: this.state.currentUser.id
 		  }
 		};
 
 		api.post(`/questions/${this.state.question.id}/comments`, payload)
+		// api.post(`/comments`, payload)
 		  .then(json=>{
 		    this.fetchComments();
 		 });
 		this.refs.body.value = '';
 	  this.handleAddComment(); //remove the form on each use
-	}
-
-	fetchAnswers() {
-	  api.get(`/questions/${this.state.question.id}`)
-	    .then(json=>{
-	      this.setState({answers: json.answers});
-	  });
-	}
-
-	handleAddComment() {
-		this.setState({showCommentForm: !this.state.showCommentForm});
 	}
 
 	fetchComments() {
@@ -61,19 +61,38 @@ export default class QuestionPage extends React.Component {
 	  });
 	}
 
-	onComment(description) {
-	  const payload = {
-	    answer: {
-	      question_id: this.state.question.id,
-	      body: body
-	    }
-	  };
+// --------------- Answer Functions -------------------------------  //
 
-	  api.post('/comments', payload)
+	handleAddAnswer() {
+		this.setState({showAnswerForm: !this.state.showAnswerForm});
+	}
+
+	fetchAnswers() {
+	  api.get(`/questions/${this.state.question.id}`)
 	    .then(json=>{
-	      this.fetchComments();
+	      this.setState({answers: json.answers});
 	  });
 	}
+
+	handleSubmitAnswer(e){
+		e.preventDefault();
+		const payload = {
+		  answer: {
+		    response: this.refs.response.value,
+		    user_id: this.state.currentUser.id
+		  }
+		};
+
+		api.post(`/questions/${this.state.question.id}/answers`, payload)
+		  .then(json=>{
+		    this.fetchAnswers();
+		 });
+		this.refs.response.value = '';
+	  this.handleAddAnswer(); //remove the form on each use
+	}
+
+
+
 
 	render(){
 
@@ -93,6 +112,22 @@ export default class QuestionPage extends React.Component {
 			  <h4 style={{marginTop: '20px'}}>Please login to comment this question </h4>;
 		}
 
+		let answerButton = "Answer";
+		let answerForm = "";
+		if(this.state.showAnswerForm){
+			answerForm = this.props.currentUser ?
+			  <div >
+			    <h4 style={{marginTop: '20px'}}>Enter Answer</h4>
+			    <form className="answer-form" onSubmit={this.handleSubmitAnswer} >
+				    <textarea type="text" className="form-control" rows="10" ref="response"></textarea>
+				    <br/>
+				    <button className="btn btn-default" type="submit" onClick={this.handleSubmitAnswer}>Submit Answer</button>
+					</form>
+			  </div>
+			  :
+			  <h4 style={{marginTop: '20px'}}>Please login to answer this question </h4>;
+		}
+
 
 		return (
 			<div>
@@ -100,7 +135,11 @@ export default class QuestionPage extends React.Component {
       	<button className="btn btn-default btn-sm" onClick={this.handleAddComment}>
 	      	{commentButton}
       	</button>
+      	<button className="btn btn-default btn-sm" onClick={this.handleAddAnswer}>
+	      	{answerButton}
+      	</button>
 				{commentForm}
+				{answerForm}
 				<CommentsList comments={this.state.comments} numComments={this.state.question.comments_count} />
 				<AnswersList answers={this.state.answers} numAnswers={this.state.question.answers_count} />
 			</div>

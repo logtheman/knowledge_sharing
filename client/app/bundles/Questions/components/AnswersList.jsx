@@ -12,6 +12,9 @@ const AnswersList = (props) => {
 			return (
 				<div key={answer.id} className="answer-row">
 					<p>{answer.response}</p>
+					<div className="comment-author">
+						Answered by {answer.username}
+					</div>
 				</div>
 				);
 		});

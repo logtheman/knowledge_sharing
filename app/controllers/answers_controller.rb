@@ -20,9 +20,19 @@ class AnswersController < ApplicationController
 	def create
 		@question = Question.find(params[:question_id])
 		@answer = @question.answers.create(answer_params)
-		@answer.user_id = current_user.id
-		@answer.save!
-		redirect_to question_path(@question)
+		@answer.user = current_user
+
+		respond_to do |format|
+			if @answer.save!
+			  format.html { redirect_to @question, notice: 'Answer was successfully created.' }
+			  format.json { redirect_to @question}
+			else
+			  format.html { render :new }
+			  format.json { render json: @answer.errors, status: :unprocessable_entity }
+			end
+		end
+
+		# redirect_to question_path(@question)
 
 	end
 

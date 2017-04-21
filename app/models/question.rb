@@ -2,7 +2,8 @@ class Question < ApplicationRecord
 	has_many :answers, :dependent => :destroy
 	has_many :comments, as: :commentable, :dependent => :destroy, counter_cache: true
 	belongs_to :user
-	accepts_nested_attributes_for :answers
+	accepts_nested_attributes_for :answers, :allow_destroy => true
+	accepts_nested_attributes_for :comments, :allow_destroy => true
 
 	acts_as_votable
 	attr_readonly :comments_count

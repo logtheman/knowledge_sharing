@@ -47,9 +47,9 @@ class QuestionsController < ApplicationController
 		  end
 		  format.json { 
 		  	render :json => {
-		  		question: @question,
-		  		comments: comments,
-		  		answers: answers
+		  		question: prepare(@question),
+		  		comments: prepareArray(comments),
+		  		answers: prepareArray(answers)
 		  	}
 		  }
 		end
@@ -127,7 +127,7 @@ class QuestionsController < ApplicationController
 		end
 
 		def question_params
-			params.require(:question).permit(:title, :detail)
+			params.require(:question).permit(:title, :detail, comments_attributes: [:id, :body, :user_id])
 		end
 
 end

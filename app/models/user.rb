@@ -5,8 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   devise :omniauthable, :omniauth_providers => [:google_oauth2]
 
-  has_many :answers, :dependent => :destroy
-  has_many :questions, :dependent => :destroy
+  has_many :answers
+  has_many :questions
+  has_many :comments
+
   # for voting gem
   acts_as_voter
 

@@ -6,22 +6,20 @@ class CommentsController < ApplicationController
 	def index
 			@comments = @comments.order(created_at: :desc)
 			respond_to do |format|
-			  format.json { render json: @comments }
+			  format.json { render json: @comments, include: [:user] }
 			end
 
 	end
 
 
 	def create
-		@comment = @commentable.comments.new comment_params
-		@comment.user_id = current_user
-		@comment.save
-		redirect_to @commentable
+
+		# redirect_to @commentable
 	end
 
 	private
 		def comment_params
-			params.require(:comment).permit(:body)
+			params.require(:comment).permit(:body, :user_id)
 		end
 
 end
