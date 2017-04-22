@@ -2,9 +2,8 @@ Rails.application.routes.draw do
 	
 	get 'react_index', to: 'questions#react_index'
 	get '/questionpage/:id', to: 'questions#question_page'
-  get 'hello_world', to: 'hello_world#index'
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
-	root to: 'questions#index'
+	root to: 'questions#react_index'
 
 	resources :questions do
 		  # Ansers related routes

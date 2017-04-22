@@ -24,8 +24,6 @@ export default class QuestionPage extends React.Component {
 		this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
 		this.fetchComments = this.fetchComments.bind(this);
 		this.handleVote = this.handleVote.bind(this);
-		// this.handleDownvote = this.handleDownvote.bind(this);
-
 	}
 
 	componentDidMount() {
@@ -79,7 +77,11 @@ export default class QuestionPage extends React.Component {
 	fetchAnswers() {
 	  api.get(`/questions/${this.state.question.id}`)
 	    .then(json=>{
-	      this.setState({answers: json.answers});
+	      this.setState(
+	      	{
+	      		answers: json.answers,
+	      		question: json.question
+	      	});
 	  });
 	}
 
@@ -100,10 +102,22 @@ export default class QuestionPage extends React.Component {
 	  this.handleAddAnswer(); //remove the form on each use
 	}
 
-	handleVote(e, answerId, type){
+	handleVote(e, answerId, type, voteType){
 		e.preventDefault();
 		const payload = this.state.question;
-		api.put(`/questions/${this.state.question.id}/answers/${answerId}/${type}`, payload)
+		let url = "";
+		switch(type){
+			case "answer":
+				url = `/questions/${this.state.question.id}/answers/${answerId}/${voteType}`;
+				break;
+			case "question":
+				url = `/questions/${this.state.question.id}/${voteType}`;
+				break;
+			default:
+				url = "";
+		}
+
+		api.put(url, payload)
 		  .then(json=>{
 		    this.fetchAnswers();
 		 });
@@ -147,15 +161,26 @@ export default class QuestionPage extends React.Component {
 
 		return (
 			<div className="questions-page-container">
-				<QuestionDetail question={this.state.question} />
-      	<button className="btn btn-default btn-sm" onClick={this.handleAddComment}>
-	      	{commentButton}
-      	</button>
-      	<button className="btn btn-default btn-sm" onClick={this.handleAddAnswer}>
-	      	{answerButton}
-      	</button>
+				<div className="question-container">
+					<QuestionDetail 
+						question={this.state.question} 
+						handleVote = {this.handleVote.bind(this)}
+					/>
+					
+					<div className="question-buttons">
+		      	<button className="btn btn-default btn-sm" onClick={this.handleAddComment}>
+			      	{commentButton}
+			      	<span className="badge"> {this.state.question.comments_count} </span>
+		      	</button>
+		      	<button className="btn btn-default btn-sm" onClick={this.handleAddAnswer}>
+			      	{answerButton}
+			      	<span className="badge"> {this.state.question.answers_count} </span>
+		      	</button>
+	      	</div>
+	      </div>
 				{commentForm}
 				{answerForm}
+
 				<CommentsList 
 					comments = {this.state.comments} 
 					numComments = {this.state.question.comments_count} 

@@ -34,6 +34,7 @@ class QuestionsController < ApplicationController
 
 	def show
 		answers = @question.answers;
+		answers = answers.order(cached_votes_score: :desc)
 		comments = @question.comments;
 
 		respond_to do |format|
@@ -99,14 +100,17 @@ class QuestionsController < ApplicationController
 		@question.save!
 		respond_to do |format|
       format.html { redirect_to :back }
-      format.js { render :layout => false }
+      format.json { render json: @question }
 		end
-		# redirect_to edit_question_path(@question)
 	end
 
 	def downvote
 		@question.downvote_from current_user
-		# redirect_to questions_path
+		@question.save!
+		respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: @question }
+		end
 	end
 
 

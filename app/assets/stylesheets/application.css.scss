@@ -17,6 +17,7 @@
 
 $background-color: white;
 $background-hover: white;
+$instacart-green: #3DAA58;
 $upvote-color: #00bf0c;
 $downvote-color: #e87902;
 $break-small: 990px;
@@ -44,7 +45,7 @@ $break-small: 990px;
 			padding-top: 20px;
 		}
 		
-	}
+	} // end of question row
 
 	.question-list{
 		flex: 1;
@@ -79,7 +80,8 @@ $break-small: 990px;
 		
 	}
 
-}
+
+} // end of question container
 
 
 .questionButton-enter {
@@ -107,6 +109,73 @@ $break-small: 990px;
 .questions-page-container{
 	width: 90%;
 	margin-left: 4%;
+
+
+	h2{
+		font-size: 1.5em;
+	}
+	.badge{
+		background-color: $instacart-green;
+		margin-left: 4px;
+		padding: 1px 5px;
+		font-size: 0.8em;
+	}
+	.question-container{
+		padding-bottom: 5px;
+		border-bottom: 2px solid #CCC;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		.question-row{
+
+			.question-detail{
+				flex-direction: column;
+				flex: 14;
+				padding-bottom: 7%;
+				align-self: flex-start;
+			} // end of question detail
+			.question-vote{
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-self: center;
+				margin-left: 5px;
+				.question-count{
+					margin-left: 45%;
+
+				}
+				.btn {
+					color: black;
+					border: none;
+					background-color: $background-color;
+					@media screen and (min-width: $break-small) {
+						margin: 0px -8px 0px -8px;
+					}
+					&:hover{
+						background-color: $background-hover;
+						 &.upvote {
+							color: $upvote-color;
+						}
+						&.downvote {
+							color: $downvote-color;
+						}
+					}
+				}
+			} // end of question vote
+		}// end of question row
+		.question-buttons{
+			flex-direction: row;
+			padding-bottom: 5px;
+			button{
+				&:nth-child(n+2) {
+					margin-left: 4px;
+				}
+			}
+		} // end of question buttons
+
+
+	}
+
 
 }
 
