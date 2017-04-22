@@ -37,3 +37,19 @@ export function post(url, payload, options) {
 
   return _fetch(url, Object.assign({}, defaultOptions, options));
 }
+
+export function put(url, options, payload){
+
+  const defaultOptions = {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+    headers: {
+      'X-CSRF-Token':  document.getElementsByName("csrf-token")[0].content,
+      'Accept':       'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin'
+  };
+
+  return _fetch(url, Object.assign({}, defaultOptions, options));
+}

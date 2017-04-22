@@ -4,6 +4,7 @@ import Pluralize from 'pluralize';
 
 
 const AnswersList = (props) => {
+	console.log(props);
 
 	let renderAnswers = "";
 	if(props.numAnswers > 0){
@@ -11,11 +12,11 @@ const AnswersList = (props) => {
 			return (
 				<div key={answer.id} className="answer-row">
 					<div className="answer-vote">
-						<button type="button" className="btn btn-default btn-sm upvote" onClick={props.handleUpvote}>
+						<button type="button" className="btn btn-default btn-sm upvote" onClick={() => {props.handleVote(event, answer.id, "like")}}>
 						  <span className="glyphicon glyphicon-menu-up"></span>
 						</button>
-						 <div className="answer-count">{answer.cached_votes_total > 0 ? answer.cached_votes_total : 0}</div>
-						<button type="button" className="btn btn-default btn-sm downvote" onClick={props.handleDownvote}>
+						 <div className="answer-count">{answer.cached_votes_score !== 0 ? answer.cached_votes_score : 0}</div>
+						<button type="button" className="btn btn-default btn-sm downvote" onClick={()=> {props.handleVote(event, answer.id, "dislike")}}>
 						  <span className="glyphicon glyphicon-menu-down"></span>
 						</button>
 					</div>

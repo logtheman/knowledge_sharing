@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
 	before_action :set_answer, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 	before_action :load_upvote, only: [:upvote, :downvote]
 
+	respond_to :html, :json
+
 	def index
 		@answers = Answer.all
 	end
@@ -38,12 +40,20 @@ class AnswersController < ApplicationController
 
 	def upvote
 		@answer.liked_by current_user
-		redirect_to question_path(@question)
+		@answer.save!
+		respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: @question }
+		end
 	end
 
 	def downvote
 		@answer.downvote_from current_user
-		redirect_to question_path(@question)
+		@answer.save!
+		respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: @question }
+		end
 	end
 
 	private

@@ -96,7 +96,12 @@ class QuestionsController < ApplicationController
 
 	def upvote
 		@question.liked_by current_user
-		# redirect_to questions_path
+		@question.save!
+		respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render :layout => false }
+		end
+		# redirect_to edit_question_path(@question)
 	end
 
 	def downvote

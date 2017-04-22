@@ -23,8 +23,8 @@ export default class QuestionPage extends React.Component {
 		this.handleAddAnswer = this.handleAddAnswer.bind(this);		
 		this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
 		this.fetchComments = this.fetchComments.bind(this);
-		this.handleUpvote = this.handleUpvote.bind(this);
-		this.handleDownvote = this.handleDownvote.bind(this);
+		this.handleVote = this.handleVote.bind(this);
+		// this.handleDownvote = this.handleDownvote.bind(this);
 
 	}
 
@@ -88,7 +88,7 @@ export default class QuestionPage extends React.Component {
 		const payload = {
 		  answer: {
 		    response: this.refs.response.value,
-		    user_id: this.state.currentUser.id
+		    // user_id: this.state.currentUser.id
 		  }
 		};
 
@@ -100,14 +100,13 @@ export default class QuestionPage extends React.Component {
 	  this.handleAddAnswer(); //remove the form on each use
 	}
 
-	handleUpvote(){
-
-
-	}
-
-	handleDownvote(){
-
-
+	handleVote(e, answerId, type){
+		e.preventDefault();
+		const payload = this.state.question;
+		api.put(`/questions/${this.state.question.id}/answers/${answerId}/${type}`, payload)
+		  .then(json=>{
+		    this.fetchAnswers();
+		 });
 	}
 
 
@@ -157,8 +156,15 @@ export default class QuestionPage extends React.Component {
       	</button>
 				{commentForm}
 				{answerForm}
-				<CommentsList comments={this.state.comments} numComments={this.state.question.comments_count} />
-				<AnswersList answers={this.state.answers} numAnswers={this.state.question.answers_count} />
+				<CommentsList 
+					comments = {this.state.comments} 
+					numComments = {this.state.question.comments_count} 
+				/>
+				<AnswersList 
+					answers={this.state.answers} 
+					numAnswers={this.state.question.answers_count} 
+					handleVote = {this.handleVote.bind(this)}
+				/>
 			</div>
 		); //end of return
 	} // end of render
