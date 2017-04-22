@@ -9,7 +9,7 @@ export default class QuestionsListItem extends React.Component {
   render() {
 
     const question = this.props.question;
-    let askBy = "";
+    let askBy = "by anonymously";
     if (question.username) {
       askBy = " by " + question.username;
     }
@@ -30,7 +30,7 @@ export default class QuestionsListItem extends React.Component {
         <div className="question-content">
           <a href={`/questionpage/${question.id}`}>{question.title}</a>
         </div>
-        <p className="question-author">asked <TimeAgo date= {question.created_at} /> {askBy}</p>
+        <p className="question-author">asked {question.created} {askBy}</p>
       </div>
     );
   }

@@ -18,6 +18,11 @@ export default class QuestionsIndex extends React.Component {
 		this.handleAddForm   = this.handleAddForm.bind(this);
 
 	}
+	
+	componentWillMount() {
+		this.fetchQuestions();
+
+	}
 
 	componentDidMount() {
 	  this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions

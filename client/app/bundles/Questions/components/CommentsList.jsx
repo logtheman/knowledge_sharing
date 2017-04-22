@@ -13,7 +13,7 @@ const CommentsList = (props) => {
 					<div key={comment.id} className="comment-row">
 						<p>{comment.body}</p>
 						<div className="comment-author">
-							Commented by {comment.username}
+							Commented {comment.created} ago by {comment.username}
 						</div>
 					</div>
 				);

@@ -1,8 +1,12 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :username
+	include ActionView::Helpers::DateHelper
+
+  attributes :id, :body, :created, :username
 
 
-  # has_one :user, serializer: UserSerializer
+  def created
+    time_ago_in_words(object.created_at)
+  end
 
   def username
     object.user.username

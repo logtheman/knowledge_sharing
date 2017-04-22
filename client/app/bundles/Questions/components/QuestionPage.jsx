@@ -23,6 +23,15 @@ export default class QuestionPage extends React.Component {
 		this.handleAddAnswer = this.handleAddAnswer.bind(this);		
 		this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
 		this.fetchComments = this.fetchComments.bind(this);
+		this.handleUpvote = this.handleUpvote.bind(this);
+		this.handleDownvote = this.handleDownvote.bind(this);
+
+	}
+
+	componentDidMount() {
+		this.fetchComments();
+		this.fetchAnswers();
+	  this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions
 	}
 
 // --------------- Comment Functions -------------------------------  //
@@ -91,7 +100,15 @@ export default class QuestionPage extends React.Component {
 	  this.handleAddAnswer(); //remove the form on each use
 	}
 
+	handleUpvote(){
 
+
+	}
+
+	handleDownvote(){
+
+
+	}
 
 
 	render(){
@@ -130,7 +147,7 @@ export default class QuestionPage extends React.Component {
 
 
 		return (
-			<div>
+			<div className="questions-page-container">
 				<QuestionDetail question={this.state.question} />
       	<button className="btn btn-default btn-sm" onClick={this.handleAddComment}>
 	      	{commentButton}
