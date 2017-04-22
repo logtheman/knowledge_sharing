@@ -22,14 +22,14 @@ export default class QuestionPage extends React.Component {
 		this.handleSubmitComment = this.handleSubmitComment.bind(this);
 		this.handleAddAnswer = this.handleAddAnswer.bind(this);		
 		this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
-		this.fetchComments = this.fetchComments.bind(this);
+		this.fetch = this.fetch.bind(this);
 		this.handleVote = this.handleVote.bind(this);
 	}
 
 	componentDidMount() {
-		this.fetchComments();
-		this.fetchAnswers();
-	  this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions
+		// this.fetchComments();
+		this.fetch();
+	  // this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions
 	}
 
 // --------------- Comment Functions -------------------------------  //
@@ -51,17 +51,18 @@ export default class QuestionPage extends React.Component {
 		api.post(`/questions/${this.state.question.id}/comments`, payload)
 		// api.post(`/comments`, payload)
 		  .then(json=>{
-		    this.fetchComments();
+		    this.fetch();
 		 });
 		this.refs.body.value = '';
 	  this.handleAddComment(); //remove the form on each use
 	}
 
-	fetchComments() {
+	fetch() {
 	  api.get(`/questions/${this.state.question.id}`)
 	    .then(json=>{
 	      this.setState({
 	      	comments: json.comments,
+	      	answers: json.answers,
 	      	question: json.question
 
 	      });
@@ -74,16 +75,16 @@ export default class QuestionPage extends React.Component {
 		this.setState({showAnswerForm: !this.state.showAnswerForm});
 	}
 
-	fetchAnswers() {
-	  api.get(`/questions/${this.state.question.id}`)
-	    .then(json=>{
-	      this.setState(
-	      	{
-	      		answers: json.answers,
-	      		question: json.question
-	      	});
-	  });
-	}
+	// fetchAnswers() {
+	//   api.get(`/questions/${this.state.question.id}`)
+	//     .then(json=>{
+	//       this.setState(
+	//       	{
+	//       		answers: json.answers,
+	//       		question: json.question
+	//       	});
+	//   });
+	// }
 
 	handleSubmitAnswer(e){
 		e.preventDefault();
@@ -96,7 +97,7 @@ export default class QuestionPage extends React.Component {
 
 		api.post(`/questions/${this.state.question.id}/answers`, payload)
 		  .then(json=>{
-		    this.fetchAnswers();
+		    this.fetch();
 		 });
 		this.refs.response.value = '';
 	  this.handleAddAnswer(); //remove the form on each use
@@ -119,7 +120,7 @@ export default class QuestionPage extends React.Component {
 
 		api.put(url, payload)
 		  .then(json=>{
-		    this.fetchAnswers();
+		    this.fetch();
 		 });
 	}
 

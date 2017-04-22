@@ -26,6 +26,9 @@ export default class QuestionsListItem extends React.Component {
           <li><p className="text-center">{question.comments_count}</p>
             <span>{Pluralize('comment', question.comments_count)}</span>
           </li>
+          <li><p className="text-center">{question.views_count}</p>
+            <span>{Pluralize('view', question.views_count)}</span>
+          </li>
         </ul>
         <div className="question-content">
           <a href={`/questionpage/${question.id}`}>{question.title}</a>

@@ -20,6 +20,15 @@ export default class TopQuestionsList extends React.Component {
         <h3 style={{borderBottom: '1px solid #CCC', paddingBottom: '20px', marginBottom:'0px'}}>
           Questions
         </h3>
+        <ul className="nav nav-tabs">
+            <li><button className="btn btn-default btn-sm" onClick={() => {this.props.handleSort("?sort_by=date_newest")}}>Recent </button></li>
+            <li><button className="btn btn-default btn-sm" onClick={() => {this.props.handleSort("?sort_by=date_oldest")}}>Oldest </button></li>
+            <li><button className="btn btn-default btn-sm" onClick={() => {this.props.handleSort("?sort_by=most_answers")}}>Answered </button></li>
+            <li><button className="btn btn-default btn-sm" onClick={() => {this.props.handleSort("?sort_by=most_comments")}}>Commented </button></li>
+            <li><button className="btn btn-default btn-sm" onClick={() => {this.props.handleSort("?sort_by=most_voted")}}>Voted </button></li>
+
+        </ul>
+
         <ul className="list-unstyled ">
         <CSSTransitionGroup
           transitionName="questionButton"

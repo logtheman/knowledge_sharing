@@ -1,7 +1,7 @@
 class QuestionSerializer < ActiveModel::Serializer
 	include ActionView::Helpers::DateHelper
 	
-  attributes :id, :title, :detail, :cached_votes_score, :comments_count, :created, :answers_count, :username
+  attributes :id, :title, :detail, :cached_votes_score, :comments_count, :created, :answers_count, :views_count, :username
 
   self.root = false
 

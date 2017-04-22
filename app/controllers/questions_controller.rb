@@ -10,7 +10,30 @@ class QuestionsController < ApplicationController
 
 	def react_index
 		@questions = Question.all
-		@questions = @questions.order(created_at: :desc)
+		if params[:sort_by] == 'date_newest'
+		  @questions = @questions.order(created_at: :desc)
+		end
+		if params[:sort_by] == 'date_oldest'
+		  @questions = @questions.order(created_at: :asc)
+		end
+		# if params[:tag]
+		#   @questions = Post.tagged_with(params[:tag])
+		# end
+		if params[:sort_by] == 'most_comments'
+		  @questions= @questions.order("comments_count desc")
+		end
+		if params[:sort_by] == 'most_answers'
+		  @questions= @questions.order("answers_count desc")
+		end
+		if params[:sort_by] == 'most_voted'
+		  @questions= @questions.order("cached_votes_total desc")
+		end
+		# if params[:sort_by] == 'most_views'
+		#   @questions = @posts.order(views: :desc)
+		# end
+
+
+		
 		# scope :sort_by_newest, -> { order(created_at: :desc) }
 		respond_to do |format|
 		  format.html do
@@ -36,6 +59,8 @@ class QuestionsController < ApplicationController
 		answers = @question.answers;
 		answers = answers.order(cached_votes_score: :desc)
 		comments = @question.comments;
+		@question.increment(:views_count, 1)
+		@question.save!
 
 		respond_to do |format|
 		  format.html do
@@ -63,7 +88,7 @@ class QuestionsController < ApplicationController
 	def destroy
 		@question.destroy
 		respond_to do |format|
-		  format.html { redirect_to react_index_path, notice: 'Post was successfully destroyed.' }
+		  format.html { redirect_to react_index_path }
 		  format.json { head :no_content }
 		end
 	end
@@ -73,8 +98,8 @@ class QuestionsController < ApplicationController
 		@question.user_id = current_user.id
 		respond_to do |format|
 			if @question.save!
-			  format.html { redirect_to @question, notice: 'Post was successfully created.' }
-			  format.json { redirect_to react_index_path, notice: 'Post was successfully created.'}
+			  format.html { redirect_to @question }
+			  format.json { redirect_to react_index_path}
 			else
 			  format.html { render :new }
 			  format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -86,7 +111,7 @@ class QuestionsController < ApplicationController
 	def update
 	  respond_to do |format|
 	    if @question.update(question_params)
-	      format.html { redirect_to @question, notice: 'Post was successfully updated.' }
+	      format.html { redirect_to @question }
 	      format.json { render :show, status: :ok, location: @question }
 	    else
 	      format.html { render :edit }

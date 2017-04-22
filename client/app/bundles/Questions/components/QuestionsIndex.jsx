@@ -16,6 +16,7 @@ export default class QuestionsIndex extends React.Component {
 		this.fetchQuestions = this.fetchQuestions.bind(this);
 		this.handleSubmit   = this.handleSubmit.bind(this);
 		this.handleAddForm   = this.handleAddForm.bind(this);
+		this.handleSort = this.handleSort.bind(this);
 
 	}
 	
@@ -25,15 +26,20 @@ export default class QuestionsIndex extends React.Component {
 	}
 
 	componentDidMount() {
-	  this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions
+	  // this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions
 	}
 
 	componentWillUnmount() {
-	  clearInterval(this.interval);
+	  // clearInterval(this.interval);
 	}
 
-	fetchQuestions() {
-	  api.get('/react_index')
+	handleSort(sortPath){
+		this.fetchQuestions(sortPath);
+
+	}
+
+	fetchQuestions(sortPath="") {
+	  api.get(`/react_index${sortPath}`)
 	    .then(json=>{
 	      this.setState({questions: json.questions});
 	    })
@@ -105,7 +111,7 @@ export default class QuestionsIndex extends React.Component {
 		  <div>
 		    <div className="row">
 		      <div className="col-md-9 question-container">
-		        <QuestionsList questions={this.state.questions} />
+		        <QuestionsList questions={this.state.questions} handleSort={this.handleSort} />
 		      </div>
 		      <div className="col-md-3" style={{marginTop: '40px'}}>
 		      	<button className="btn btn-primary btn-lg" onClick={this.handleAddForm}>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421030010) do
+ActiveRecord::Schema.define(version: 20170422224130) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "response"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20170421030010) do
     t.integer  "cached_weighted_total",   default: 0
     t.float    "cached_weighted_average", default: 0.0
     t.integer  "comments_count",          default: 0
+    t.integer  "views_count",             default: 0
     t.index ["cached_votes_down"], name: "index_questions_on_cached_votes_down"
     t.index ["cached_votes_score"], name: "index_questions_on_cached_votes_score"
     t.index ["cached_votes_total"], name: "index_questions_on_cached_votes_total"
