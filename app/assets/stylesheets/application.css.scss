@@ -49,6 +49,29 @@ $break-small: 990px;
 
 	.question-list{
 		flex: 1;
+
+		// display: flex;
+		.questions-sort-header{
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+			border-bottom: 1px solid #CCC;
+			h3{
+				border: none;	
+				padding-bottom: 0;
+			}
+
+			.nav{
+				margin-left: auto;
+				margin-top: auto;
+				border:none;
+				button{
+					border-top:none;
+					border-right:none;
+					border-left:none;
+				}
+			}
+		}
 	
 	}
 	.question-stat{
