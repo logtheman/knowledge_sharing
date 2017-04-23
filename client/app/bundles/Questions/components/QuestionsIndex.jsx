@@ -11,7 +11,8 @@ export default class QuestionsIndex extends React.Component {
 		this.state = {
 			currentUser: this.props.currentUser,
 			questions: this.props.questions,
-			showForm: false
+			showForm: false,
+			currentSort: "voted"
 		}
 		this.fetchQuestions = this.fetchQuestions.bind(this);
 		this.handleSubmit   = this.handleSubmit.bind(this);
@@ -33,7 +34,8 @@ export default class QuestionsIndex extends React.Component {
 	  // clearInterval(this.interval);
 	}
 
-	handleSort(sortPath){
+	handleSort(sortPath, currentSort){
+		this.state.currentSort = currentSort;
 		this.fetchQuestions(sortPath);
 
 	}
@@ -111,7 +113,11 @@ export default class QuestionsIndex extends React.Component {
 		  <div>
 		    <div className="row">
 		      <div className="col-md-9 question-container">
-		        <QuestionsList questions={this.state.questions} handleSort={this.handleSort} />
+		        <QuestionsList 
+		        	questions={this.state.questions} 
+		        	handleSort={this.handleSort} 
+		        	currentSort={this.state.currentSort}
+		        />
 		      </div>
 		      <div className="col-md-3" style={{marginTop: '40px'}}>
 		      	<button className="btn btn-primary btn-lg" onClick={this.handleAddForm}>
