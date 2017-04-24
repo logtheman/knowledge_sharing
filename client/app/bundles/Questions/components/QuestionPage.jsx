@@ -14,7 +14,8 @@ export default class QuestionPage extends React.Component {
 			answers: this.props.answers,
 			showCommentForm: false,
 			showAnswerForm: false,
-			currentUser: props.currentUser
+			editQuestion: false,
+			currentUser: props.currentUser,
 
 		}
 
@@ -24,10 +25,12 @@ export default class QuestionPage extends React.Component {
 		this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
 		this.fetch = this.fetch.bind(this);
 		this.handleVote = this.handleVote.bind(this);
+		this.handleSubmitQuestion = this.handleSubmitQuestion.bind(this);
+		this.handleShowEditForm = this.handleShowEditForm.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	componentDidMount() {
-		// this.fetchComments();
 		this.fetch();
 	  // this.interval = setInterval(this.fetchQuestions, 5 * 1000); //update questions
 	}
@@ -44,12 +47,10 @@ export default class QuestionPage extends React.Component {
 		const payload = {
 		  comment: {
 		    body: this.refs.body.value,
-		    user_id: this.state.currentUser.id
 		  }
 		};
 
 		api.post(`/questions/${this.state.question.id}/comments`, payload)
-		// api.post(`/comments`, payload)
 		  .then(json=>{
 		    this.fetch();
 		 });
@@ -75,23 +76,11 @@ export default class QuestionPage extends React.Component {
 		this.setState({showAnswerForm: !this.state.showAnswerForm});
 	}
 
-	// fetchAnswers() {
-	//   api.get(`/questions/${this.state.question.id}`)
-	//     .then(json=>{
-	//       this.setState(
-	//       	{
-	//       		answers: json.answers,
-	//       		question: json.question
-	//       	});
-	//   });
-	// }
-
 	handleSubmitAnswer(e){
 		e.preventDefault();
 		const payload = {
 		  answer: {
 		    response: this.refs.response.value,
-		    // user_id: this.state.currentUser.id
 		  }
 		};
 
@@ -124,8 +113,38 @@ export default class QuestionPage extends React.Component {
 		 });
 	}
 
+		/* ----------------- Functions for editing and deleting question--------------------------------- */
+		handleShowEditForm(){
+			this.setState({editQuestion: !this.state.editQuestion});
+		}
+
+		handleSubmitQuestion(e, title, detail="", type) {
+			e.preventDefault();
+		  const payload = {
+		    question: {
+		      title:  title,
+		      detail: detail
+		    }
+		  };
+		  api.put(`/questionspage/${this.state.question.id}/edit`, "", payload)
+		    .then(json=>{
+		      this.fetch();
+		  }); 	
+
+		  this.handleShowEditForm(); //remove the form on each use
+		}
+
+		handleDelete(){
+			api.deleteRequest(`/questionspage/${this.state.question.id}`, "", this.state.question)
+			  .then(json=>{
+			  	console.log("question deleted");
+			  }
+			);
+		}
 
 	render(){
+
+		/* ------------------- Comment and Answer forms ------------------------------- */
 
 		let commentButton = "Comment";
 		let commentForm = "";
@@ -159,6 +178,7 @@ export default class QuestionPage extends React.Component {
 			  <h4 style={{marginTop: '20px'}}>Please login to answer this question </h4>;
 		}
 
+		/* ----------------- Return for Render function --------------------------------- */
 
 		return (
 			<div className="questions-page-container">
@@ -166,6 +186,11 @@ export default class QuestionPage extends React.Component {
 					<QuestionDetail 
 						question={this.state.question} 
 						handleVote = {this.handleVote.bind(this)}
+						editQuestion = {this.state.editQuestion}
+						handleShowEditForm = {this.handleShowEditForm}
+						handleSubmitQuestion = {this.handleSubmitQuestion}
+						currentUser = {this.state.currentUser}
+						handleDelete = {this.handleDelete}
 					/>
 					
 					<div className="question-buttons">

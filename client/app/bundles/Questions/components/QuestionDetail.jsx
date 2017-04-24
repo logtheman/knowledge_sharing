@@ -1,6 +1,38 @@
 import React from 'react';
+import QuestionInput from './QuestionInput';
+import * as api from '../../Utils/utils'
+
+
 
 const QuestionDetail = (props) => {
+
+
+
+	let showContent = "";
+	let showEditDelete = "";
+	console.log("props.question.detail: \n", props.question.detail);
+	if(props.editQuestion){
+		showContent = <QuestionInput handleSubmit={props.handleSubmitQuestion} question={props.question}/> 
+	}else{
+		showContent = 			
+		(
+				<div>
+					<h2>{props.question.title}</h2>
+					<p>{api.HtmlConverterComponent(props.question.detail)}</p>
+				</div>
+		)
+		console.log("Show content: \n", showContent);
+
+		if(props.currentUser.username === props.question.username){
+			showEditDelete = (
+				<div className="question-edit">
+					<a className="edit-link" onClick={props.handleShowEditForm} >Edit</a>
+					<a className="delete-link" onClick={props.handleDelete}> Delete</a>
+				</div>
+			)
+		}
+	}
+
 
 	return (
 		<div className="question-row">
@@ -16,8 +48,8 @@ const QuestionDetail = (props) => {
 
 
 			<div className="question-detail">
-				<h2>{props.question.title}</h2>
-				<p>{props.question.detail}</p>
+				{showContent}
+				{showEditDelete}
 			</div>
 		</div>
 	);

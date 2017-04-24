@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 	
 	get 'react_index', to: 'questions#react_index'
 	get '/questionpage/:id', to: 'questions#question_page'
+	put '/questionspage/:id/edit', to: 'questions#update'
+	delete '/questionspage/:id', to: 'questions#destroy'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 	root to: 'questions#react_index'
 

@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+	include ActionView::Helpers::TextHelper
 	before_action :authenticate_user!, except: [:index, :react_index, :show]
 	before_action :set_question, only: [:show, :question_page, :edit, :update, :destroy, :upvote, :downvote]
 
@@ -28,9 +29,9 @@ class QuestionsController < ApplicationController
 		if params[:sort_by] == 'most_voted'
 		  @questions= @questions.order("cached_votes_total desc")
 		end
-		# if params[:sort_by] == 'most_views'
-		#   @questions = @posts.order(views: :desc)
-		# end
+		if params[:sort_by] == 'most_views'
+		  @questions = @question.order("views_count desc")
+		end
 
 
 		
@@ -86,15 +87,19 @@ class QuestionsController < ApplicationController
 	end
 
 	def destroy
-		@question.destroy
-		respond_to do |format|
-		  format.html { redirect_to react_index_path }
-		  format.json { head :no_content }
+		if(@question.user_id == current_user.id)
+			@question.destroy
+
+			respond_to do |format|
+			  format.html { redirect_to react_index_path }
+			  format.json { redirect_to react_index_path }
+			end
 		end
 	end
 
 	def create
 		@question = Question.new(question_params)
+		@question.detail = simple_format(@question.detail)
 		@question.user_id = current_user.id
 		respond_to do |format|
 			if @question.save!
@@ -112,7 +117,7 @@ class QuestionsController < ApplicationController
 	  respond_to do |format|
 	    if @question.update(question_params)
 	      format.html { redirect_to @question }
-	      format.json { render :show, status: :ok, location: @question }
+	      format.json { render json: @question }
 	    else
 	      format.html { render :edit }
 	      format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -161,7 +166,7 @@ class QuestionsController < ApplicationController
 		end
 
 		def question_params
-			params.require(:question).permit(:title, :detail, comments_attributes: [:id, :body, :user_id])
+			params.require(:question).permit(:title, :detail)
 		end
 
 end

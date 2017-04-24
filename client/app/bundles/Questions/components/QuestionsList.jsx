@@ -29,11 +29,11 @@ export default class TopQuestionsList extends React.Component {
             Questions
           </h3>
           <ul className="nav nav-tabs">
+              <li><button className={this.handleActiveClass("voted")} onClick={() => {this.props.handleSort("?sort_by=most_voted", "voted")}}>Voted </button></li>
               <li><button className={this.handleActiveClass("recent")} onClick={() => {this.props.handleSort("?sort_by=date_newest", "recent")}}>Recent </button></li>
               <li><button className={this.handleActiveClass("oldest")} onClick={() => {this.props.handleSort("?sort_by=date_oldest", "oldest")}}>Oldest </button></li>
               <li><button className={this.handleActiveClass("answered")} onClick={() => {this.props.handleSort("?sort_by=most_answers", "answered")}}>Answered </button></li>
               <li><button className={this.handleActiveClass("commented")} onClick={() => {this.props.handleSort("?sort_by=most_comments", "commented")}}>Commented </button></li>
-              <li><button className={this.handleActiveClass("voted")} onClick={() => {this.props.handleSort("?sort_by=most_voted", "voted")}}>Voted </button></li>
 
           </ul>
         </div>

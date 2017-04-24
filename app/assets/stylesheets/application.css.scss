@@ -21,6 +21,7 @@ $instacart-green: #3DAA58;
 $upvote-color: #00bf0c;
 $downvote-color: #e87902;
 $break-small: 990px;
+$row-hover-color: #fffde2;
 
 
 /* Questions section starts here ************************************** */
@@ -39,6 +40,9 @@ $break-small: 990px;
 	.question-row{
 		display: flex;
 		flex: 1;
+		// &:hover{
+		// 	background-color: $row-hover-color;
+		// }
 		.border{
 			border-bottom: 1px solid #CCC;
 			padding-bottom: 10px;
@@ -69,6 +73,9 @@ $break-small: 990px;
 					border-top:none;
 					border-right:none;
 					border-left:none;
+				}
+				.btn:focus,.btn:active {
+				   outline: none !important;
 				}
 			}
 		}
@@ -170,12 +177,12 @@ $break-small: 990px;
 				.btn {
 					color: black;
 					border: none;
-					background-color: $background-color;
+					// background-color: $background-color;
 					@media screen and (min-width: $break-small) {
 						margin: 0px -8px 0px -8px;
 					}
 					&:hover{
-						background-color: $background-hover;
+						background-color: $row-hover-color;
 						 &.upvote {
 							color: $upvote-color;
 						}
@@ -195,7 +202,14 @@ $break-small: 990px;
 				}
 			}
 		} // end of question buttons
+		.question-edit{
+			font-size: .75em;
+			color: grey;
+			.delete-link {
+				margin-left: 2px;
+			}
 
+		}
 
 	}
 

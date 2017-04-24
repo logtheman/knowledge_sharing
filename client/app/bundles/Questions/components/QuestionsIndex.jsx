@@ -1,6 +1,7 @@
 
 import React from 'react';
 import QuestionsList from './QuestionsList';
+import QuestionInput from './QuestionInput';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import * as api from '../../Utils/utils'
 
@@ -11,11 +12,15 @@ export default class QuestionsIndex extends React.Component {
 		this.state = {
 			currentUser: this.props.currentUser,
 			questions: this.props.questions,
+			questionInput: {
+				title: "",
+				body: ""
+			},
 			showForm: false,
 			currentSort: "voted"
 		}
 		this.fetchQuestions = this.fetchQuestions.bind(this);
-		this.handleSubmit   = this.handleSubmit.bind(this);
+		this.handleSubmitQuestion   = this.handleSubmitQuestion.bind(this);
 		this.handleAddForm   = this.handleAddForm.bind(this);
 		this.handleSort = this.handleSort.bind(this);
 
@@ -47,22 +52,20 @@ export default class QuestionsIndex extends React.Component {
 	    })
 	}
 
-	handleSubmit(e) {
+	handleSubmitQuestion(e, title, detail="", type) {
 		e.preventDefault();
 	  const payload = {
 	    question: {
-	      title:       this.refs.title.value,
-	      detail: this.refs.detail.value
+	      title:  title,
+	      detail: detail
 	    }
 	  };
-
+	  
 	  api.post('/questions', payload)
 	    .then(json=>{
 	      this.fetchQuestions();
-	    });
+	  }); 	
 
-	  this.refs.title.value = '';
-	  this.refs.detail.value = '';
 	  this.handleAddForm(); //remove the form on each use
 	}
 
@@ -92,22 +95,9 @@ export default class QuestionsIndex extends React.Component {
 		if(this.state.showForm){
 			buttonText = "Hide Form";
 			questionForm = this.state.currentUser ?
-					  <div>
-					    <h4 style={{marginTop: '20px'}}>Ask a question</h4>
-					      <form onSubmit={this.handleSubmit}>
-					        <div className="form-group">
-					          <input type="text" className="form-control" placeholder="Title" ref="title"></input>
-					        </div>
-					        <div className="form-group">
-					          <textarea className="form-control" rows="10" placeholder="Description" ref="detail"></textarea>
-					        </div>
-					        <br/>
-					        <button className="btn btn-default pull-right" type="submit">Submit</button>
-					      </form>
-					  </div> // end of if user is signed in
+					  <QuestionInput handleSubmit={this.handleSubmitQuestion} /> 
 					  :
-					  <h4 style={{marginTop: '20px'}}>Please <a href="/users/sign_in" role="button">login</a> to ask a question</h4>;
-					  // If user is not signed in
+					  <h4>Please <a href="/users/sign_in" role="button">login</a> to ask a question</h4>;// If user is not signed in
 		}
 		return (
 		  <div>

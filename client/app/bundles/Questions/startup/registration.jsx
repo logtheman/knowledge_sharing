@@ -1,5 +1,6 @@
 import ReactOnRails from 'react-on-rails';
 import QuestionsIndex from '../components/QuestionsIndex';
+import QuestionInput from '../components/QuestionInput';
 import QuestionPage from '../components/QuestionPage';
 import HelloWorld from '../components/HelloWorld';
 
@@ -7,6 +8,7 @@ import HelloWorld from '../components/HelloWorld';
 ReactOnRails.register({
   QuestionsIndex,
   QuestionPage,
+  QuestionInput,
   HelloWorld,
   
 });
