@@ -1,6 +1,7 @@
 import React from 'react';
 import Pluralize from 'pluralize';
 import TimeAgo from 'react-timeago'
+import * as api from '../../Utils/utils'
 
 
 // Questions List Item
@@ -32,6 +33,7 @@ export default class QuestionsListItem extends React.Component {
         </ul>
         <div className="question-content">
           <a href={`/questionpage/${question.id}`}>{question.title}</a>
+          <p>{api.truncate(question.detail, 80)}</p>
         </div>
         <p className="question-author">asked {question.created} {askBy}</p>
       </div>

@@ -10,7 +10,6 @@ const QuestionDetail = (props) => {
 
 	let showContent = "";
 	let showEditDelete = "";
-	console.log("props.question.detail: \n", props.question.detail);
 	if(props.editQuestion){
 		showContent = <QuestionInput handleSubmit={props.handleSubmitQuestion} question={props.question}/> 
 	}else{
@@ -21,8 +20,6 @@ const QuestionDetail = (props) => {
 					<p>{api.HtmlConverterComponent(props.question.detail)}</p>
 				</div>
 		)
-		console.log("Show content: \n", showContent);
-
 		if(props.currentUser.username === props.question.username){
 			showEditDelete = (
 				<div className="question-edit">

@@ -11,6 +11,9 @@ class QuestionsController < ApplicationController
 
 	def react_index
 		@questions = Question.all
+
+		@questions= @questions.order("cached_votes_score desc") # default sort
+
 		if params[:sort_by] == 'date_newest'
 		  @questions = @questions.order(created_at: :desc)
 		end
@@ -27,7 +30,7 @@ class QuestionsController < ApplicationController
 		  @questions= @questions.order("answers_count desc")
 		end
 		if params[:sort_by] == 'most_voted'
-		  @questions= @questions.order("cached_votes_total desc")
+		  @questions= @questions.order("cached_votes_score desc")
 		end
 		if params[:sort_by] == 'most_views'
 		  @questions = @question.order("views_count desc")
@@ -99,7 +102,7 @@ class QuestionsController < ApplicationController
 
 	def create
 		@question = Question.new(question_params)
-		@question.detail = simple_format(@question.detail)
+		# @question.detail = simple_format(@question.detail)
 		@question.user_id = current_user.id
 		respond_to do |format|
 			if @question.save!

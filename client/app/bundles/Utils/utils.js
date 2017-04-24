@@ -74,14 +74,32 @@ export function deleteRequest(url, options, payload){
 
 /* ---------------  Component Helpers ------------------------------- */
 
+function stringToHTML(str){
+  str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+  return str;
+}
+
 function createMarkup(input) {
-  return {__html: input};
+  const output = stringToHTML(input);
+  return {__html: output};
 }
 
 export function HtmlConverterComponent(input) {
   return <div dangerouslySetInnerHTML={createMarkup(input)} />;
 }
 //https://facebook.github.io/react/docs/dom-elements.html
+
+export function truncate(str, length){
+  if(str){
+    str = str.substring(0, length);
+    if(str.length >= length){
+      str += "...";
+    }
+    return str;
+  }
+  return "";
+}
+
 
 
 
