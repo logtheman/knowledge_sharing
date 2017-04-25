@@ -4,7 +4,8 @@ import Pluralize from 'pluralize';
 
 
 const AnswersList = (props) => {
-	console.log(props);
+
+
 
 	let renderAnswers = "";
 	if(props.numAnswers > 0){
@@ -23,6 +24,12 @@ const AnswersList = (props) => {
 					<div className="answer-body">
 						<div className="answer-content">
 							<p>{answer.response}</p>
+							{props.currentUser.username === answer.username &&
+								<div className="edit-section">
+									<a className="edit-link" onClick="" >Edit</a>
+									<a className="delete-link" onClick={() => props.handleDelete("answer", answer.id)}> Delete</a>
+								</div>
+							}
 						</div>
 						<div className="answer-author">
 							Answered {answer.created} ago by {answer.username} 

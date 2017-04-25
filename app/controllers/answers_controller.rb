@@ -16,7 +16,13 @@ class AnswersController < ApplicationController
 	end
 
 	def destroy
-
+		if(@answer.user_id == current_user.id)
+			@answer.destroy
+			respond_to do |format|
+			  # format.html { redirect_to @question}
+			  format.json { render result: "success!" }
+			end
+		end
 	end
 
 	def create

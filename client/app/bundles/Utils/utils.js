@@ -74,18 +74,37 @@ export function deleteRequest(url, options, payload){
 
 /* ---------------  Component Helpers ------------------------------- */
 
+//TODO break on \n and create a array of strings and make into divs 
+// string split on new line character
+
+
 function stringToHTML(str){
-  str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
-  return str;
+  // str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+  const parts = str.split('\n');
+  const returnString = parts.map((part, index)=>{
+    return (
+      <p className="form-output" key={`detail-${index}`}>{part}</p>
+    );
+  });
+  return returnString;
 }
 
-function createMarkup(input) {
-  const output = stringToHTML(input);
-  return {__html: output};
-}
+// function createMarkup(input) {
+//   const output = stringToHTML(input);
+//   return {__html: output};
+// }
 
 export function HtmlConverterComponent(input) {
-  return <div dangerouslySetInnerHTML={createMarkup(input)} />;
+  // return <div dangerouslySetInnerHTML={createMarkup(input)} />;
+  if(input) {
+    return (
+      <div>
+        {stringToHTML(input)}
+      </div>
+    );
+  }else{
+    return //just return is nothing to do
+  }
 }
 //https://facebook.github.io/react/docs/dom-elements.html
 

@@ -17,14 +17,14 @@ const QuestionDetail = (props) => {
 		(
 				<div>
 					<h2>{props.question.title}</h2>
-					<p>{api.HtmlConverterComponent(props.question.detail)}</p>
+					{api.HtmlConverterComponent(props.question.detail)}
 				</div>
 		)
 		if(props.currentUser.username === props.question.username){
 			showEditDelete = (
-				<div className="question-edit">
+				<div className="edit-section">
 					<a className="edit-link" onClick={props.handleShowEditForm} >Edit</a>
-					<a className="delete-link" onClick={props.handleDelete}> Delete</a>
+					<a className="delete-link" onClick={() => props.handleDelete("question")}> Delete</a>
 				</div>
 			)
 		}

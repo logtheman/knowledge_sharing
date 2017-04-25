@@ -19,6 +19,16 @@ class Questions::CommentsController < CommentsController
 
   end
 
+  def destroy
+    if(@comment.user_id == current_user.id)
+      @comment.destroy
+      respond_to do |format|
+        # format.html { redirect_to @question}
+        format.json { render result: "success!" }
+      end
+    end
+  end
+
 
   private
   	def comment_params

@@ -134,10 +134,28 @@ export default class QuestionPage extends React.Component {
 		  this.handleShowEditForm(); //remove the form on each use
 		}
 
-		handleDelete(){
-			api.deleteRequest(`/questionspage/${this.state.question.id}`, "", this.state.question)
+		handleDelete(type, answerID="", commentID=""){
+			let URL = "";
+			switch(type){
+				case "question":
+					URL = `/questionspage/${this.state.question.id}`;
+					break;
+				case "answer":
+					URL = `/questions/${this.state.question.id}/answers/${answerID}`;
+					break;
+				case "question_comment":
+					URL = `/questions/${this.state.question.id}/comments/${commentID}`
+				default:
+					return;
+			} // end of switch
+
+			api.deleteRequest(URL, "", this.state.question)
 			  .then(json=>{
-			  	console.log("question deleted");
+			  	if(type === "question"){
+			  		window.location = "http://localhost:3000/"; //TODO - Need to implement routers
+			  	}else{
+			  		this.fetch();
+			  	}
 			  }
 			);
 		}
@@ -210,11 +228,16 @@ export default class QuestionPage extends React.Component {
 				<CommentsList 
 					comments = {this.state.comments} 
 					numComments = {this.state.question.comments_count} 
+					currentUser = {this.state.currentUser}
+					handleDelete = {this.handleDelete}
 				/>
 				<AnswersList 
 					answers={this.state.answers} 
 					numAnswers={this.state.question.answers_count} 
 					handleVote = {this.handleVote.bind(this)}
+					currentUser = {this.state.currentUser}
+					handleDelete = {this.handleDelete}
+
 				/>
 			</div>
 		); //end of return

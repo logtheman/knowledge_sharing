@@ -95,7 +95,7 @@ class QuestionsController < ApplicationController
 
 			respond_to do |format|
 			  format.html { redirect_to react_index_path }
-			  format.json { redirect_to react_index_path }
+			  format.json { render result: "success!" }
 			end
 		end
 	end
@@ -107,7 +107,7 @@ class QuestionsController < ApplicationController
 		respond_to do |format|
 			if @question.save!
 			  format.html { redirect_to @question }
-			  format.json { redirect_to react_index_path}
+			  format.json { render result: "success!"}
 			else
 			  format.html { render :new }
 			  format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -120,7 +120,7 @@ class QuestionsController < ApplicationController
 	  respond_to do |format|
 	    if @question.update(question_params)
 	      format.html { redirect_to @question }
-	      format.json { render json: @question }
+	      format.json { render result: "success!"}
 	    else
 	      format.html { render :edit }
 	      format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -133,7 +133,7 @@ class QuestionsController < ApplicationController
 		@question.save!
 		respond_to do |format|
       format.html { redirect_to :back }
-      format.json { render json: @question }
+      format.json { render result: "success!" }
 		end
 	end
 
@@ -142,7 +142,7 @@ class QuestionsController < ApplicationController
 		@question.save!
 		respond_to do |format|
       format.html { redirect_to :back }
-      format.json { render json: @question }
+      format.json { render result: "success!" }
 		end
 	end
 

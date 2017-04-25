@@ -1,10 +1,10 @@
+
 import React from 'react';
 
 export default class QuestionInput extends React.Component{
 
 
 	render(){
-		console.log("QuestionInput Question info: ", this.props.question);
 		const defaultTitle = this.props.question ? this.props.question.title : "";
 		const defaultDetail = this.props.question? this.props.question.detail : "";
 

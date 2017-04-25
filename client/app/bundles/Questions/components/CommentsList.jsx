@@ -6,12 +6,18 @@ const CommentsList = (props) => {
 
 	let renderComments = "";
 	if(props.numComments > 0){
-		// console.log("should render comments");
 		const allComments = 
 			props.comments.map(comment=>{
 				return(
 					<div key={comment.id} className="comment-row">
 						<p>{comment.body}</p>
+						{props.currentUser.username === comment.username &&
+							<div className="edit-section">
+								<a className="edit-link" onClick="" >Edit</a>
+								<a className="delete-link" onClick={() => {props.handleDelete("question_comment", comment.id)}}> Delete </a>
+							</div>
+						}
+
 						<div className="comment-author">
 							Commented {comment.created} ago by {comment.username}
 						</div>
