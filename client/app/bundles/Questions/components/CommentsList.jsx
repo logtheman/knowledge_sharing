@@ -14,10 +14,9 @@ const CommentsList = (props) => {
 						{props.currentUser.username === comment.username &&
 							<div className="edit-section">
 								<a className="edit-link" onClick="" >Edit</a>
-								<a className="delete-link" onClick={() => {props.handleDelete("question_comment", comment.id)}}> Delete </a>
+								<a className="delete-link" onClick={() => props.handleDelete("question_comment", comment.id)}> Delete</a>
 							</div>
 						}
-
 						<div className="comment-author">
 							Commented {comment.created} ago by {comment.username}
 						</div>

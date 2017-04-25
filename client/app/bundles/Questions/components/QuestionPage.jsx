@@ -2,6 +2,7 @@ import React from 'react';
 import * as api from '../../Utils/utils'
 import CommentsList from './CommentsList'
 import AnswersList from './AnswersList'
+import AnswerInput from './AnswerInput'
 import QuestionDetail from './QuestionDetail'
 
 
@@ -76,19 +77,17 @@ export default class QuestionPage extends React.Component {
 		this.setState({showAnswerForm: !this.state.showAnswerForm});
 	}
 
-	handleSubmitAnswer(e){
+	handleSubmitAnswer(e, body){
 		e.preventDefault();
 		const payload = {
 		  answer: {
-		    response: this.refs.response.value,
+		    response: body,
 		  }
 		};
-
 		api.post(`/questions/${this.state.question.id}/answers`, payload)
 		  .then(json=>{
 		    this.fetch();
 		 });
-		this.refs.response.value = '';
 	  this.handleAddAnswer(); //remove the form on each use
 	}
 
@@ -180,21 +179,28 @@ export default class QuestionPage extends React.Component {
 			  <h4 style={{marginTop: '20px'}}>Please login to comment this question </h4>;
 		}
 
-		let answerButton = "Answer";
 		let answerForm = "";
 		if(this.state.showAnswerForm){
 			answerForm = this.props.currentUser ?
-			  <div >
-			    <h4 style={{marginTop: '20px'}}>Enter Answer</h4>
-			    <form className="answer-form" onSubmit={this.handleSubmitAnswer} >
-				    <textarea type="text" className="form-control" rows="10" ref="response"></textarea>
-				    <br/>
-				    <button className="btn btn-default" type="submit" onClick={this.handleSubmitAnswer}>Submit Answer</button>
-					</form>
-			  </div>
+				<AnswerInput handleSubmitAnswer={this.handleSubmitAnswer} />
 			  :
 			  <h4 style={{marginTop: '20px'}}>Please login to answer this question </h4>;
 		}
+
+		// let answerForm = "";
+		// if(this.state.showAnswerForm){
+		// 	answerForm = this.props.currentUser ?
+		// 	  <div >
+		// 	    <h4 style={{marginTop: '20px'}}>Enter Answer</h4>
+		// 	    <form className="answer-form" onSubmit={this.handleSubmitAnswer} >
+		// 		    <textarea type="text" className="form-control" rows="10" ref="response"></textarea>
+		// 		    <br/>
+		// 		    <button className="btn btn-default" type="submit" onClick={this.handleSubmitAnswer}>Submit Answer</button>
+		// 			</form>
+		// 	  </div>
+		// 	  :
+		// 	  <h4 style={{marginTop: '20px'}}>Please login to answer this question </h4>;
+		// }
 
 		/* ----------------- Return for Render function --------------------------------- */
 
@@ -213,11 +219,11 @@ export default class QuestionPage extends React.Component {
 					
 					<div className="question-buttons">
 		      	<button className="btn btn-default btn-sm" onClick={this.handleAddComment}>
-			      	{commentButton}
+			      	Comment
 			      	<span className="badge"> {this.state.question.comments_count} </span>
 		      	</button>
 		      	<button className="btn btn-default btn-sm" onClick={this.handleAddAnswer}>
-			      	{answerButton}
+			      	Answer
 			      	<span className="badge"> {this.state.question.answers_count} </span>
 		      	</button>
 	      	</div>
