@@ -9,6 +9,21 @@ class AnswersController < ApplicationController
 		@answers = Answer.all
 	end
 
+	def edit
+
+	end
+	def update
+		respond_to do |format|
+		  if @answer.update(answer_params)
+		    format.html { redirect_to @answer }
+		    format.json { render json: @question}
+		  else
+		    format.html { render :edit }
+		    format.json { render json: @answer.errors, status: :unprocessable_entity }
+		  end
+		end
+	end
+
 	def new
 	end
 
@@ -39,9 +54,6 @@ class AnswersController < ApplicationController
 			  format.json { render json: @answer.errors, status: :unprocessable_entity }
 			end
 		end
-
-		# redirect_to question_path(@question)
-
 	end
 
 	def upvote

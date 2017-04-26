@@ -280,8 +280,15 @@ $row-hover-color: #fffde2;
 					}
 				}
 			}
+		}
+		.edit-answer{
+			flex:10;
+			margin: auto;
+			padding-left: 8%;
+			padding-bottom: 5px;
 
 		}
+
 		.answer-body{
 			flex: 14;
 			display: flex;

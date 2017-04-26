@@ -5,6 +5,9 @@ import AnswersList from './AnswersList'
 import AnswerInput from './AnswerInput'
 import QuestionDetail from './QuestionDetail'
 
+const AddQuestionAnswerForm = -1;
+const NoAnswerForm = -2;
+
 
 export default class QuestionPage extends React.Component {
 	constructor(props){
@@ -14,7 +17,7 @@ export default class QuestionPage extends React.Component {
 			comments: this.props.comments,
 			answers: this.props.answers,
 			showCommentForm: false,
-			showAnswerForm: false,
+			showAnswerFormID: NoAnswerForm,
 			editQuestion: false,
 			currentUser: props.currentUser,
 
@@ -73,21 +76,33 @@ export default class QuestionPage extends React.Component {
 
 // --------------- Answer Functions -------------------------------  //
 
-	handleAddAnswer() {
-		this.setState({showAnswerForm: !this.state.showAnswerForm});
+	handleAddAnswer(e, idNum=NoAnswerForm) {
+		if(idNum === this.state.showAnswerFormID){
+			this.setState({showAnswerFormID: NoAnswerForm});
+		}else{
+			this.setState({showAnswerFormID: idNum});
+		}
+		
 	}
 
-	handleSubmitAnswer(e, body){
+	handleSubmitAnswer(e, body, type){
 		e.preventDefault();
 		const payload = {
 		  answer: {
 		    response: body,
 		  }
 		};
-		api.post(`/questions/${this.state.question.id}/answers`, payload)
-		  .then(json=>{
-		    this.fetch();
-		 });
+		if(type === "get"){ // if editing
+			api.put(`/questions/${this.state.question.id}/answers/${this.state.showAnswerFormID}/edit`,"", payload)
+			  .then(json=>{
+			    this.fetch();
+			 });
+		}else{ //if new answer
+			api.post(`/questions/${this.state.question.id}/answers`, payload)
+			  .then(json=>{
+			    this.fetch();
+			 });
+		}
 	  this.handleAddAnswer(); //remove the form on each use
 	}
 
@@ -180,7 +195,7 @@ export default class QuestionPage extends React.Component {
 		}
 
 		let answerForm = "";
-		if(this.state.showAnswerForm){
+		if(this.state.showAnswerFormID === AddQuestionAnswerForm){
 			answerForm = this.props.currentUser ?
 				<AnswerInput handleSubmitAnswer={this.handleSubmitAnswer} />
 			  :
@@ -222,7 +237,7 @@ export default class QuestionPage extends React.Component {
 			      	Comment
 			      	<span className="badge"> {this.state.question.comments_count} </span>
 		      	</button>
-		      	<button className="btn btn-default btn-sm" onClick={this.handleAddAnswer}>
+		      	<button className="btn btn-default btn-sm" onClick={() => this.handleAddAnswer(event, AddQuestionAnswerForm)}>
 			      	Answer
 			      	<span className="badge"> {this.state.question.answers_count} </span>
 		      	</button>
@@ -243,6 +258,9 @@ export default class QuestionPage extends React.Component {
 					handleVote = {this.handleVote.bind(this)}
 					currentUser = {this.state.currentUser}
 					handleDelete = {this.handleDelete}
+					handleAddAnswer = {this.handleAddAnswer}
+					editAnswerID = {this.state.showAnswerFormID}
+					handleSubmitAnswer = {this.handleSubmitAnswer}
 
 				/>
 			</div>

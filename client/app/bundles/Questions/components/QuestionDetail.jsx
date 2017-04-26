@@ -5,9 +5,6 @@ import * as api from '../../Utils/utils'
 
 
 const QuestionDetail = (props) => {
-
-
-
 	let showContent = "";
 	let showEditDelete = "";
 	if(props.editQuestion){
@@ -29,7 +26,6 @@ const QuestionDetail = (props) => {
 			)
 		}
 	}
-
 
 	return (
 		<div className="question-row">
