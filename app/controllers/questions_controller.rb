@@ -91,6 +91,8 @@ class QuestionsController < ApplicationController
 
 	def destroy
 		if(@question.user_id == current_user.id)
+			@comments = @question.comments
+			@comments.delete_all
 			@question.destroy
 
 			respond_to do |format|
@@ -102,7 +104,6 @@ class QuestionsController < ApplicationController
 
 	def create
 		@question = Question.new(question_params)
-		# @question.detail = simple_format(@question.detail)
 		@question.user_id = current_user.id
 		respond_to do |format|
 			if @question.save!
