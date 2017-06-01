@@ -19,12 +19,32 @@ class Questions::CommentsController < CommentsController
 
   end
 
-  def destroy
-    if(@comment.user_id == current_user.id)
-      @comment.destroy
+  def destroy 
+    if(@commentable.user_id == current_user.id)
       respond_to do |format|
-        # format.html { redirect_to @question}
-        format.json { render result: "success!" }
+        if @commentable.destroy
+          format.html { render @commentable}
+          format.json { render @commentable}
+        else
+          format.html { render :new }
+          format.json { render json: @commentable.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    @commentable = Question.find(params[:question_id])
+    respond_to do |format|
+      if @commentable.update(comment_params)
+        format.html { redirect_to @commentable }
+        format.json { render json: @commentable}
+      else
+        format.html { render :edit }
+        format.json { render json: @commentable.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -37,5 +57,6 @@ class Questions::CommentsController < CommentsController
 
     def set_commentable
       @commentable = Question.find(params[:question_id])
+
     end
 end

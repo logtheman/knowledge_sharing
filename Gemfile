@@ -7,6 +7,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'acts-as-taggable-on', '~> 4.0'
+
 gem "active_model_serializers",  '~> 0.8.0'
 
 #add react

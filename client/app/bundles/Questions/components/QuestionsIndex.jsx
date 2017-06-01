@@ -17,7 +17,7 @@ export default class QuestionsIndex extends React.Component {
 				body: ""
 			},
 			showForm: false,
-			currentSort: "voted"
+			currentSort: ""
 		}
 		this.fetchQuestions = this.fetchQuestions.bind(this);
 		this.handleSubmitQuestion   = this.handleSubmitQuestion.bind(this);

@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 	get '/questionpage/:id', to: 'questions#question_page'
 	put '/questionspage/:id/edit', to: 'questions#update'
 	put '/questions/:id/answers/:id/edit', to: 'answers#update'
+	put '/comments/:id/:commentable_type/:comment_id/edit', to: 'comments#update'
+	delete '/comments/:id', to: 'comments#destroy'
+
+
 	delete '/questionspage/:id', to: 'questions#destroy'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }

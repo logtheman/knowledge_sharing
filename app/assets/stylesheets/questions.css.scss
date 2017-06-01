@@ -76,3 +76,27 @@ $break-small: 990px;
 	border-top: 1px solid;
 
 }
+.tag-results{
+	// margin: 0;
+	// padding: 0;
+	// position: relative;
+		color: red;
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0;
+    margin: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #cbcfe2 #c8cee7 
+
+    li{
+    	background-color: red;
+    }
+    .hl {
+      background:#ffc600;
+    }
+}

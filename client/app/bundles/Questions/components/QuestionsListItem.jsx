@@ -34,6 +34,14 @@ export default class QuestionsListItem extends React.Component {
         <div className="question-content">
           <a href={`/questionpage/${question.id}`}>{question.title}</a>
           <p>{api.truncate(question.detail, 80)}</p>
+          <ul className="list-inline">
+            <li className="list-inline-item tag-item"> <a href='#'>tag1</a> </li>
+            <li className="list-inline-item tag-item"> <a href='#'>tag2</a> </li>
+            <li className="list-inline-item tag-item"> <a href='#'>tag3</a> </li>
+            <li className="list-inline-item tag-item"> <a href='#'>tag4</a> </li>
+
+
+          </ul>
         </div>
         <p className="question-author">asked {question.created} {askBy}</p>
       </div>

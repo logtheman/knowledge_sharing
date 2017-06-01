@@ -1,12 +1,10 @@
 import React from 'react';
 import * as api from '../../Utils/utils'
 import CommentsList from './CommentsList'
+import CommentInput from './CommentInput'
 import AnswersList from './AnswersList'
 import AnswerInput from './AnswerInput'
 import QuestionDetail from './QuestionDetail'
-
-const AddQuestionAnswerForm = -1;
-const NoAnswerForm = -2;
 
 
 export default class QuestionPage extends React.Component {
@@ -17,7 +15,7 @@ export default class QuestionPage extends React.Component {
 			comments: this.props.comments,
 			answers: this.props.answers,
 			showCommentForm: false,
-			showAnswerFormID: NoAnswerForm,
+			showAnswerForm: false,
 			editQuestion: false,
 			currentUser: props.currentUser,
 
@@ -46,19 +44,25 @@ export default class QuestionPage extends React.Component {
 		this.setState({showCommentForm: !this.state.showCommentForm});
 	}
 
-	handleSubmitComment(e){
+	handleSubmitComment(e, body, commentId, type){
 		e.preventDefault();
 		const payload = {
 		  comment: {
-		    body: this.refs.body.value,
-		  }
+		    body: body,
+		  },
+		  // question_id: this.state.question.id
 		};
-
-		api.post(`/questions/${this.state.question.id}/comments`, payload)
-		  .then(json=>{
-		    this.fetch();
-		 });
-		this.refs.body.value = '';
+		if(type === "put"){ // if editing
+			api.put(`/comments/${commentId}/question/${this.state.question.id}/edit`,"", payload)
+			  .then(json=>{
+			    this.fetch();
+			 });
+		}else{ //if new answer
+			api.post(`/questions/${this.state.question.id}/comments`, payload)
+			  .then(json=>{
+			    this.fetch();
+			 });
+		}
 	  this.handleAddComment(); //remove the form on each use
 	}
 
@@ -76,16 +80,12 @@ export default class QuestionPage extends React.Component {
 
 // --------------- Answer Functions -------------------------------  //
 
-	handleAddAnswer(e, idNum=NoAnswerForm) {
-		if(idNum === this.state.showAnswerFormID){
-			this.setState({showAnswerFormID: NoAnswerForm});
-		}else{
-			this.setState({showAnswerFormID: idNum});
-		}
-		
+	handleAddAnswer(e) {
+		this.setState({showAnswerForm: !this.state.showAnswerForm});
+
 	}
 
-	handleSubmitAnswer(e, body, type){
+	handleSubmitAnswer(e, body, answerId, type){
 		e.preventDefault();
 		const payload = {
 		  answer: {
@@ -93,7 +93,7 @@ export default class QuestionPage extends React.Component {
 		  }
 		};
 		if(type === "get"){ // if editing
-			api.put(`/questions/${this.state.question.id}/answers/${this.state.showAnswerFormID}/edit`,"", payload)
+			api.put(`/questions/${this.state.question.id}/answers/${answerId}/edit`,"", payload)
 			  .then(json=>{
 			    this.fetch();
 			 });
@@ -158,10 +158,13 @@ export default class QuestionPage extends React.Component {
 					URL = `/questions/${this.state.question.id}/answers/${answerID}`;
 					break;
 				case "question_comment":
-					URL = `/questions/${this.state.question.id}/comments/${commentID}`
+				// URL = `/questions/${this.state.question.id}/comments/${commentID}`;
+					URL = `/comments/${commentID}`;
+					break;
 				default:
 					return;
 			} // end of switch
+				console.log("URL :", URL);
 
 			api.deleteRequest(URL, "", this.state.question)
 			  .then(json=>{
@@ -182,43 +185,22 @@ export default class QuestionPage extends React.Component {
 		let commentForm = "";
 		if(this.state.showCommentForm){
 			commentForm = this.props.currentUser ?
-			  <div >
-			    <h4 style={{marginTop: '20px'}}>Enter Comment</h4>
-			    <form className="comment-form" onSubmit={this.handleSubmitComment} >
-				    <input type="text" className="form-control" rows="2" ref="body"></input>
-				    <br/>
-				    <button className="btn btn-default" type="submit" onClick={this.handleSubmitComment}>Submit</button>
-					</form>
-			  </div>
+				<CommentInput handleSubmitComment={this.handleSubmitComment} />
 			  :
 			  <h4 style={{marginTop: '20px'}}>Please login to comment this question </h4>;
 		}
 
+
 		let answerForm = "";
-		if(this.state.showAnswerFormID === AddQuestionAnswerForm){
+		if(this.state.showAnswerForm){
 			answerForm = this.props.currentUser ?
 				<AnswerInput handleSubmitAnswer={this.handleSubmitAnswer} />
 			  :
 			  <h4 style={{marginTop: '20px'}}>Please login to answer this question </h4>;
 		}
 
-		// let answerForm = "";
-		// if(this.state.showAnswerForm){
-		// 	answerForm = this.props.currentUser ?
-		// 	  <div >
-		// 	    <h4 style={{marginTop: '20px'}}>Enter Answer</h4>
-		// 	    <form className="answer-form" onSubmit={this.handleSubmitAnswer} >
-		// 		    <textarea type="text" className="form-control" rows="10" ref="response"></textarea>
-		// 		    <br/>
-		// 		    <button className="btn btn-default" type="submit" onClick={this.handleSubmitAnswer}>Submit Answer</button>
-		// 			</form>
-		// 	  </div>
-		// 	  :
-		// 	  <h4 style={{marginTop: '20px'}}>Please login to answer this question </h4>;
-		// }
 
 		/* ----------------- Return for Render function --------------------------------- */
-
 		return (
 			<div className="questions-page-container">
 				<div className="question-container">
@@ -237,7 +219,7 @@ export default class QuestionPage extends React.Component {
 			      	Comment
 			      	<span className="badge"> {this.state.question.comments_count} </span>
 		      	</button>
-		      	<button className="btn btn-default btn-sm" onClick={() => this.handleAddAnswer(event, AddQuestionAnswerForm)}>
+		      	<button className="btn btn-default btn-sm" onClick={this.handleAddAnswer}>
 			      	Answer
 			      	<span className="badge"> {this.state.question.answers_count} </span>
 		      	</button>
@@ -251,6 +233,7 @@ export default class QuestionPage extends React.Component {
 					numComments = {this.state.question.comments_count} 
 					currentUser = {this.state.currentUser}
 					handleDelete = {this.handleDelete}
+					handleSubmitComment = {this.handleSubmitComment}
 				/>
 				<AnswersList 
 					answers={this.state.answers} 
@@ -258,8 +241,6 @@ export default class QuestionPage extends React.Component {
 					handleVote = {this.handleVote.bind(this)}
 					currentUser = {this.state.currentUser}
 					handleDelete = {this.handleDelete}
-					handleAddAnswer = {this.handleAddAnswer}
-					editAnswerID = {this.state.showAnswerFormID}
 					handleSubmitAnswer = {this.handleSubmitAnswer}
 
 				/>

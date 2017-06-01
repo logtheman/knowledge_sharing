@@ -1,5 +1,6 @@
 import React from 'react';
 import Pluralize from 'pluralize';
+import CommentDisplay from './CommentDisplay'
 
 
 const CommentsList = (props) => {
@@ -10,16 +11,13 @@ const CommentsList = (props) => {
 			props.comments.map(comment=>{
 				return(
 					<div key={comment.id} className="comment-row">
-						<p>{comment.body}</p>
-						{props.currentUser.username === comment.username &&
-							<div className="edit-section">
-								<a className="edit-link" onClick="" >Edit</a>
-								<a className="delete-link" onClick={() => props.handleDelete("question_comment", comment.id)}> Delete</a>
-							</div>
-						}
-						<div className="comment-author">
-							Commented {comment.created} ago by {comment.username}
-						</div>
+						<CommentDisplay 
+							handleSubmitComment={props.handleSubmitComment} 
+							comment = {comment}
+							username = {comment.username}
+							currentUser = {props.currentUser}
+							handleDelete = {props.handleDelete}
+						/>
 					</div>
 				);
 			});

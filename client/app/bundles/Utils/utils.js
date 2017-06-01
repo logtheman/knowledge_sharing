@@ -119,6 +119,42 @@ export function truncate(str, length){
   return "";
 }
 
+/************************ Temporary auto complete proof of concept **************************/
 
+function findMatches(wordToMatch, tags) {
+  return tags.filter(tag => {
+    // here we need to figure out if the tag matches what was searched
+    const regex = new RegExp(wordToMatch, 'gi');
+    return tag.match(regex);
+  });
+}
+
+export function displayMatches(value) {
+  const matchArray = findMatches(value, tags);
+  if(matchArray.length > 0){
+  return (
+          <ul className="tag-results">
+           {matchArray.map((tag, i) => {
+             const regex = new RegExp(value, 'gi');
+             // const foundTag = tag.replace(regex, `<span className="hl">${value}</span>`);
+             const foundTag = tag.replace(regex, value);
+             
+             return (
+                <li key={i}>
+                  <span className="tagFound">{foundTag}</span>
+                </li>)
+           })}
+        </ul>
+        );
+  }else{
+    return '';
+  }
+
+}
+
+
+const tags = ['Happiness', 'Engineering', 'Business Development', 'Finance', 'Ops', 'Catalog', 'Marketing',
+              'Shoppers', 'Data Science', 'Orders', 'Express', 'Payroll', 'Rails', 
+              'React', 'Tableau', 'Blazer', 'Stripe', 'Marqeta', 'Culture', 'SF Office', 'All Hands', 'Happy Hour'];
 
 

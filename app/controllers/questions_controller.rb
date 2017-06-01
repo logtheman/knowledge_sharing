@@ -12,7 +12,6 @@ class QuestionsController < ApplicationController
 	def react_index
 		@questions = Question.all
 
-		@questions= @questions.order("cached_votes_score desc") # default sort
 
 		if params[:sort_by] == 'date_newest'
 		  @questions = @questions.order(created_at: :desc)
@@ -92,7 +91,8 @@ class QuestionsController < ApplicationController
 	def destroy
 		if(@question.user_id == current_user.id)
 			@comments = @question.comments
-			@comments.delete_all
+			@comments.destroy_all
+			# @comments.save
 			@question.destroy
 
 			respond_to do |format|

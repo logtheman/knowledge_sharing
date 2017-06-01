@@ -1,8 +1,21 @@
 
 import React from 'react';
+import * as api from '../../Utils/utils'
+
 
 export default class QuestionInput extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			suggestions: '',
+		}
+		this.handleTagging = this.handleTagging.bind(this);
+	}
 
+	handleTagging(e){
+		e.preventDefault();
+		this.setState({suggestions: api.displayMatches(e.target.value)});
+	}
 
 	render(){
 		const defaultTitle = this.props.question ? this.props.question.title : "";
@@ -18,7 +31,10 @@ export default class QuestionInput extends React.Component{
 			      <div className="form-group">
 			        <textarea className="form-control" rows="5" defaultValue = {defaultDetail} placeholder="Description" ref="detail"></textarea>
 			      </div>
-			      <br/>
+			      <div className="form-group">
+			        <input type="text" className="form-control tagging" onChange={this.handleTagging} placeholder="Add tags" />
+			        <div className="">{this.state.suggestions}</div>
+			      </div>
 			      <button className="btn btn-default pull-right" type="submit">Submit</button>
 			    </form>
 			</div> // end of if user is signed in
