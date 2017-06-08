@@ -132,12 +132,13 @@ export default class QuestionPage extends React.Component {
 			this.setState({editQuestion: !this.state.editQuestion});
 		}
 
-		handleSubmitQuestion(e, title, detail="", type) {
+		handleSubmitQuestion(e, title, detail="", tag_list="", type) {
 			e.preventDefault();
 		  const payload = {
 		    question: {
 		      title:  title,
-		      detail: detail
+		      detail: detail,
+		      tag_list: tag_list
 		    }
 		  };
 		  api.put(`/questionspage/${this.state.question.id}/edit`, "", payload)

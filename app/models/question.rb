@@ -6,6 +6,8 @@ class Question < ApplicationRecord
 	# accepts_nested_attributes_for :comments, :allow_destroy => true
 
 	acts_as_votable
+	acts_as_taggable
+	
 	attr_readonly :comments_count
 	validates :title, presence: true
 end

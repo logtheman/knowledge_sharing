@@ -52,12 +52,13 @@ export default class QuestionsIndex extends React.Component {
 	    })
 	}
 
-	handleSubmitQuestion(e, title, detail="", type) {
+	handleSubmitQuestion(e, title, detail="", tag_list, type) {
 		e.preventDefault();
 	  const payload = {
 	    question: {
 	      title:  title,
-	      detail: detail
+	      detail: detail,
+	      tag_list: tag_list
 	    }
 	  };
 	  

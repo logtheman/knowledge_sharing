@@ -20,11 +20,13 @@ export default class QuestionInput extends React.Component{
 	render(){
 		const defaultTitle = this.props.question ? this.props.question.title : "";
 		const defaultDetail = this.props.question? this.props.question.detail : "";
+		const defaultTags = this.props.question? this.props.question.tag_list : "";
+
 
 		return(
 			<div>
 			  <h4>Ask a question</h4>
-			    <form onSubmit={() => this.props.handleSubmit(event, this.refs.title.value, this.refs.detail.value)}>
+			    <form onSubmit={() => this.props.handleSubmit(event, this.refs.title.value, this.refs.detail.value, this.refs.tag_list.value)}>
 			      <div className="form-group">
 			        <input type="text" className="form-control"  defaultValue = {defaultTitle} placeholder="Title" ref="title"></input>
 			      </div>
@@ -32,8 +34,7 @@ export default class QuestionInput extends React.Component{
 			        <textarea className="form-control" rows="5" defaultValue = {defaultDetail} placeholder="Description" ref="detail"></textarea>
 			      </div>
 			      <div className="form-group">
-			        <input type="text" className="form-control tagging" onChange={this.handleTagging} placeholder="Add tags" />
-			        <div className="">{this.state.suggestions}</div>
+			        <input type="text" className="form-control tagging" defaultValue = {defaultTags} placeholder="Add tags" ref="tag_list" />
 			      </div>
 			      <button className="btn btn-default pull-right" type="submit">Submit</button>
 			    </form>
@@ -43,3 +44,6 @@ export default class QuestionInput extends React.Component{
 	} // end of render
 }
 
+
+// <input type="text" className="form-control tagging" onChange={this.handleTagging} placeholder="Add tags" />
+// <div className="">{this.state.suggestions}</div>

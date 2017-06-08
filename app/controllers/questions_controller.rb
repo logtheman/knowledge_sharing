@@ -170,7 +170,7 @@ class QuestionsController < ApplicationController
 		end
 
 		def question_params
-			params.require(:question).permit(:title, :detail)
+			params.require(:question).permit(:title, :detail, :tag_list)
 		end
 
 end

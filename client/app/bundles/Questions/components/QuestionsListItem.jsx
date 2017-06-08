@@ -15,6 +15,15 @@ export default class QuestionsListItem extends React.Component {
       askBy = " by " + question.username;
     }
 
+
+    const tags = question.tag_list ? 
+      question.tag_list.map((tag, i) => {
+        return (
+          <li key={i} className="list-inline-item tag-item">
+            <a href="#">{tag}</a>
+          </li>
+        );
+     }) : "";
     return (
       <div className="question-row border">
         <ul className="list-inline text-center question-stat">
@@ -35,12 +44,7 @@ export default class QuestionsListItem extends React.Component {
           <a href={`/questionpage/${question.id}`}>{question.title}</a>
           <p>{api.truncate(question.detail, 80)}</p>
           <ul className="list-inline">
-            <li className="list-inline-item tag-item"> <a href='#'>tag1</a> </li>
-            <li className="list-inline-item tag-item"> <a href='#'>tag2</a> </li>
-            <li className="list-inline-item tag-item"> <a href='#'>tag3</a> </li>
-            <li className="list-inline-item tag-item"> <a href='#'>tag4</a> </li>
-
-
+            {tags}
           </ul>
         </div>
         <p className="question-author">asked {question.created} {askBy}</p>

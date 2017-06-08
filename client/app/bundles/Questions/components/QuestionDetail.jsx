@@ -10,12 +10,25 @@ const QuestionDetail = (props) => {
 	if(props.editQuestion){
 		showContent = <QuestionInput handleSubmit={props.handleSubmitQuestion} question={props.question}/> 
 	}else{
+		const tags = props.question.tag_list ? 
+		  props.question.tag_list.map((tag, i) => {
+		    console.log("tag:", tag);
+		    return (
+		      <li key={i} className="list-inline-item tag-item">
+		        <a href="#">{tag}</a>
+		      </li>
+		    );
+		 }) : "";
 		showContent = 			
 		(
 				<div>
 					<h2>{props.question.title}</h2>
+					<ul className="list-inline">
+						{tags}
+					</ul>
 					{api.HtmlConverterComponent(props.question.detail)}
 				</div>
+
 		)
 		if(props.currentUser.username === props.question.username){
 			showEditDelete = (
