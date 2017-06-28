@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 	root to: 'questions#react_index'
 
+	get 'tags', to: 'tags#index'
+
 	resources :questions do
 		  # Ansers related routes
 			resources :answers do

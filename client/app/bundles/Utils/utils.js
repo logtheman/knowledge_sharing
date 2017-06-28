@@ -121,15 +121,24 @@ export function truncate(str, length){
 
 /************************ Temporary auto complete proof of concept **************************/
 
+
 function findMatches(wordToMatch, tags) {
-  return tags.filter(tag => {
-    // here we need to figure out if the tag matches what was searched
-    const regex = new RegExp(wordToMatch, 'gi');
-    return tag.match(regex);
-  });
+  console.log("word to match: ", wordToMatch);
+  console.log("tags in matching: ", tags);
+
+  if(tags){
+    return tags.filter(tag => {
+      // here we need to figure out if the tag matches what was searched
+      const regex = new RegExp(wordToMatch, 'gi');
+      return tag.match(regex);
+    });
+  }else{
+    return []
+  }
 }
 
-export function displayMatches(value) {
+
+export function displayMatches(value, tags="") {
   const matchArray = findMatches(value, tags);
   if(matchArray.length > 0){
   return (
@@ -149,12 +158,27 @@ export function displayMatches(value) {
   }else{
     return '';
   }
+}
+
+export function getTagList(){
+  let tags = '';
+  get('/tags').then(json=>{
+      tags = json.tags.map(function(tag) {
+        return tag.name;
+      });
+      console.log("tags in json retrieve: ", tags); 
+  }).catch(err=>{
+      console.log('There was an error processing your request');
+      console.log(err);
+   });
+  console.log('tags: ', tags);
+  // return tags;
 
 }
 
 
-const tags = ['Happiness', 'Engineering', 'Business Development', 'Finance', 'Ops', 'Catalog', 'Marketing',
-              'Shoppers', 'Data Science', 'Orders', 'Express', 'Payroll', 'Rails', 
-              'React', 'Tableau', 'Blazer', 'Stripe', 'Marqeta', 'Culture', 'SF Office', 'All Hands', 'Happy Hour'];
+// const tags = ['Happiness', 'Engineering', 'Business Development', 'Finance', 'Ops', 'Catalog', 'Marketing',
+//               'Shoppers', 'Data Science', 'Orders', 'Express', 'Payroll', 'Rails', 
+//               'React', 'Tableau', 'Blazer', 'Stripe', 'Marqeta', 'Culture', 'SF Office', 'All Hands', 'Happy Hour'];
 
 

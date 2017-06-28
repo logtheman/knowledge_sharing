@@ -44,6 +44,9 @@ const config = {
         exclude: /node_modules/,
       },
     ],
+    loaders: [
+        {test: /\.(css|scss})$/, loader: 'style-loader!css-loader'},
+    ],
   },
 };
 

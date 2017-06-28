@@ -3,6 +3,7 @@ import React from 'react';
 import * as api from '../../Utils/utils'
 
 
+
 export default class QuestionInput extends React.Component{
 	constructor(props){
 		super(props);
@@ -14,7 +15,8 @@ export default class QuestionInput extends React.Component{
 
 	handleTagging(e){
 		e.preventDefault();
-		this.setState({suggestions: api.displayMatches(e.target.value)});
+		const tags = api.getTagList();
+		this.setState({suggestions: api.displayMatches(e.target.value, tags)});
 	}
 
 	render(){
@@ -34,7 +36,8 @@ export default class QuestionInput extends React.Component{
 			        <textarea className="form-control" rows="5" defaultValue = {defaultDetail} placeholder="Description" ref="detail"></textarea>
 			      </div>
 			      <div className="form-group">
-			        <input type="text" className="form-control tagging" defaultValue = {defaultTags} placeholder="Add tags" ref="tag_list" />
+			        <input type="text" className="form-control tagging" onChange={this.handleTagging} defaultValue = {defaultTags} placeholder="Add tags" ref="tag_list" />
+			        <div className="">{this.state.suggestions}</div>
 			      </div>
 			      <button className="btn btn-default pull-right" type="submit">Submit</button>
 			    </form>
